@@ -1,0 +1,111 @@
+.portlet {
+  &.light {
+    &.card {
+      padding: {
+        left: 0;
+        right: 0;
+      }
+
+      > .portlet-body,
+      > .portlet-footer,
+      > .portlet-title {
+        padding: {
+          left: $grid-gutter-width / 2;
+          right: $grid-gutter-width / 2;
+        };
+      }
+
+      > .portlet-title {
+
+        > .caption {
+          color: #444;
+
+          > i {
+            color: #555
+          }
+
+          > .caption-subject {
+            font-weight: 600;
+          }
+        }
+
+        > .actions:not(:first-child) {
+          margin-left: 15px;
+        }
+      }
+    }
+  }
+
+  &.portlet-widget {
+    display: none;
+    height: 100%;
+    position: absolute;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+    right: 0;
+    top: 0;
+    width: $portlet-widget-width;
+    z-index: 99;
+
+    &.portlet-widget-active {
+      display: block;
+    }
+
+    &.portlet-widget-hidden {
+      transition: transform .2s cubic-bezier(0,0,.2,1);
+      transform: translateX($portlet-widget-width);
+    }
+
+    > .btn-portlet-widget-toggle {
+      @include level(1);
+      background: #fff url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAUCAQAAAAXDMSnAAAAi0lEQVR4AX3JQcqBURQG4O/+9WNG30D3vOfSDTuQsgcZyBakZANSzMVMBme3zsBI5/VMn4ZKLP5ki1E4tYejWpilxVUtzOEUD68odYmXR5BJNp/4zllXD2phllYvamHmirsayUkfJ5ruHzueTldC08kcT5YOY9xYujqQM03XKXuaLmEtNF1e1Nz89gbL+0do6OEwRwAAAABJRU5ErkJggg==) 8px center/7px 10px no-repeat;
+      border: 0 none;
+      top: 4px;
+      height: 50px;
+      padding: 0;
+      position: absolute;
+      left: -25px;
+      width: 25px;
+
+      &.btn-hide {
+        transform: scaleX(-1);
+      }
+    }
+
+    > .portlet-body {
+      height: calc(100% - 48px);
+      padding-top: 0;
+
+      > .row {
+        height: 100%;
+      }
+    }
+
+    > .portlet-title {
+      background-color: #fff;
+      margin-bottom: 0;
+      min-height: 57px;
+      padding-top: 9px;
+      position: relative;
+
+      > .btn-close {
+        background: url(../img/metronic/portlet-remove-icon.png) center center no-repeat;
+        display: inline-block;
+        float: right;
+        height: 30px;
+        margin: {
+          top: 4px;
+          left: 9px;
+          right: -6px;
+        }
+        text-indent: -9999px;
+        width: 33px;
+
+        &:hover {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+}

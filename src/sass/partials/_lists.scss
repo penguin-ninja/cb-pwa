@@ -1,0 +1,67 @@
+.list-devices {
+  margin: 0 -15px;
+  padding: 0;
+
+  > li {
+    display: block;
+    margin: 0;
+    position: relative;
+
+    > .btn-add {
+      position: absolute;
+      padding: 4px;
+      right: 10px;
+      top: 10px;
+      width: 28px;
+
+      .fa {
+        position: relative;
+        top: 1px;
+      }
+    }
+
+    > .btn-toggle {
+      border-bottom: 1px solid #eee;
+      color: $btn-simple-color;
+      display: block;
+      padding: 14px 52px 13px 15px;
+      position: relative;
+      text-align: left;
+
+      &:active:not(:hover),
+      &:focus:not(:hover) {
+        background-color: $btn-simple-bg;
+      }
+
+      .device-no {
+        color: #777;
+        float: right;
+        display: block;
+        margin-top: -2px;
+      }
+
+      .fa {
+        margin-right: 5px;
+      }
+    }
+
+    .table {
+      display: none;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 0;
+
+      .btn-action {
+        height: 25px;
+        margin: -6px 0px -3px;
+        padding: 1px;
+        width: 25px;
+      }
+    }
+
+    &.active {
+      .table {
+        display: table;
+      }
+    }
+  }
+}

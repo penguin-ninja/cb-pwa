@@ -1,0 +1,10 @@
+.card {
+  background-color: #fff;
+  @include level(1);
+}
+
+@for $i from 1 through 5 {
+  .card-#{$i} {
+    @include level($i);
+  }
+}

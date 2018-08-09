@@ -1,0 +1,7 @@
+.btn-simple {
+  @include button-variant($btn-simple-color, $btn-simple-bg, $btn-simple-border);
+}
+
+.btn-primary {
+  @include button-variant($btn-primary-color, $brand-main-color, darken($brand-main-color, 5%));
+}
