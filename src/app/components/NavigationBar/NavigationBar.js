@@ -1,14 +1,18 @@
 import React, { Component } from 'react';
+import { inject } from 'mobx-react';
+import { Link } from 'react-router-dom';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import Navbar from 'react-bootstrap/lib/Navbar';
-import { Link } from 'react-router-dom';
 
 import LogoImg from 'img/logo.png';
-import './NavigationBar.scss';
+import './NavigationBar.css';
 
+@inject('sidebarStore')
 class NavigationBar extends Component {
   render() {
+    const { sidebarStore } = this.props;
+
     return (
       <Navbar fluid fixedTop className="page-header">
         <Navbar.Header>
@@ -30,6 +34,9 @@ class NavigationBar extends Component {
           <Nav pullRight>
             <NavItem>
               <i className="fa fa-clock-o" />
+            </NavItem>
+            <NavItem>
+              <i className="fa fa-cog" onClick={sidebarStore.onToggle} />
             </NavItem>
           </Nav>
         </Navbar.Collapse>

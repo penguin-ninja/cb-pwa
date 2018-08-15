@@ -1,10 +1,12 @@
+import SidebarStore from './sidebar-store';
+
 class RootStore {
   constructor() {
     this.createStores();
   }
 
   createStores() {
-    // TODO add mobx stores
+    this.sidebarStore = new SidebarStore(this);
   }
 }
 
