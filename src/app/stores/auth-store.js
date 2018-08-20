@@ -1,5 +1,7 @@
 import { observable, action } from 'mobx';
 import request from 'app/utils/request';
+import storage from 'app/utils/local-storage';
+import logger from 'app/utils/logger';
 
 class AuthStore {
   @observable
@@ -8,14 +10,14 @@ class AuthStore {
   authToken = '';
   @observable
   userId = '';
-  baseUrl = process.env.API_BASE_URL;
+  baseUrl = process.env.REACT_APP_API_BASE_URL || '';
 
   constructor(rootStore) {
     this.rootStore = rootStore;
 
-    this.refreshToken = CONCRETE_LOGGER.get('refreshToken') || '';
-    this.authToken = CONCRETE_LOGGER.get('authToken') || '';
-    this.userId = CONCRETE_LOGGER.get('userId') || '';
+    this.refreshToken = storage.getItem('refreshToken') || '';
+    this.authToken = storage.getItem('authToken') || '';
+    this.userId = storage.getItem('userId') || '';
 
     this.refresh();
   }
@@ -30,23 +32,22 @@ class AuthStore {
       },
       'POST'
     ).then(resp => {
-      // @TODO handle login
+      this.authToken = resp.token;
+      this.refreshToken = resp.refreshToken;
     });
   }
 
   @action
   fetchUserId() {
     this.makeAuthorizedRequest('/api/Account/id').then(resp => {
-      // @TODO handle user id
+      this.userId = resp.userId;
     });
   }
 
   @action
   refresh() {
     if (!this.refreshToken) {
-      CONCRETE_LOGGER.debug(
-        'Refresh token is not set. Ignoring refresh request'
-      );
+      logger.debug('Refresh token is not set. Ignoring refresh request');
       return;
     }
 

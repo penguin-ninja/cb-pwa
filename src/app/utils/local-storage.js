@@ -1,17 +1,19 @@
+import logger from './logger';
+
 class LocalStorage {
   static mainKey = 'cloud-batch';
   data = {};
 
   constructor() {
-    this.loadData();
+    this.load();
   }
 
   load() {
     try {
-      this.data = JSON.parse(window.localStorage.getItem(this.mainKey));
+      this.data = JSON.parse(window.localStorage.getItem(this.mainKey)) || {};
     } catch (e) {
-      CONCRETE_LOGGER.error(e);
-      CONCRETE_LOGGER.warn('There was problem loading data from local storage');
+      logger.error(e);
+      logger.warn('There was problem loading data from local storage');
       this.data = {};
     }
   }

@@ -1,4 +1,6 @@
+import AuthStore from './auth-store';
 import SidebarStore from './sidebar-store';
+import DevicesStore from './devices-store';
 
 class RootStore {
   constructor() {
@@ -6,7 +8,9 @@ class RootStore {
   }
 
   createStores() {
+    this.authStore = new AuthStore(this);
     this.sidebarStore = new SidebarStore(this);
+    this.devicesStore = new DevicesStore(this);
   }
 }
 

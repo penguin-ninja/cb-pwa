@@ -1,5 +1,6 @@
 import 'whatwg-fetch';
 import qs from 'qs';
+import logger from './logger';
 
 function parseJSON(response) {
   if (response.status === 204 || response.status === 205) {
@@ -40,7 +41,7 @@ export default function request(
     }
   }
 
-  CONCRETE_LOGGER.debug('Making request', url, options, headers);
+  logger.log('Making request', url, options, headers);
   return fetch(requestUrl, {
     ...options,
     headers: {
@@ -51,11 +52,11 @@ export default function request(
     .then(checkResponseStatus)
     .then(parseJSON)
     .then(resp => {
-      CONCRETE_LOGGER.debug('API request success', url, resp);
+      logger.log('API request success', url, resp);
       return resp;
     })
     .catch(e => {
-      CONCRETE_LOGGER.debug('API request error', url, e);
+      logger.log('API request error', url, e);
       throw e;
     });
 }
