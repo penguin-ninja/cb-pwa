@@ -1,11 +1,19 @@
 import logger from './logger';
+import * as seed from '../../seed';
 
 class LocalStorage {
   static mainKey = 'cloud-batch';
   data = {};
 
   constructor() {
-    this.load();
+    // this.load();
+    this.seed();
+  }
+
+  seed() {
+    this.data = {
+      '/api/batch/DeviceManager/plant/3': seed.devices
+    };
   }
 
   load() {
