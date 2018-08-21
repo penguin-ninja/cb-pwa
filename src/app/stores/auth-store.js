@@ -3,6 +3,7 @@ import request from 'app/utils/request';
 import storage from 'app/utils/local-storage';
 import logger from 'app/utils/logger';
 
+// @TODO handle API errors
 class AuthStore {
   @observable
   refreshToken = '';
@@ -11,6 +12,7 @@ class AuthStore {
   @observable
   userId = '';
   baseUrl = process.env.REACT_APP_API_BASE_URL || '';
+  plantId = 3; // hard coded as 3 for now
 
   constructor(rootStore) {
     this.rootStore = rootStore;
@@ -74,7 +76,19 @@ class AuthStore {
   }
 
   makeRequest(url, params, method) {
-    return request(`${this.baseUrl}${url}`, params, method);
+    if (navigator.onLine) {
+      logger.warn(`You are offline. Serving from local storage for ${url}`);
+      return Promise.resolve(storage.getItem(url));
+    }
+
+    return request(`${this.baseUrl}${url}`, params, method).then(resp => {
+      if (!method || method === 'GET') {
+        logger.debug(`Storing info for ${url}`);
+        storage.setItem(url, resp);
+      }
+
+      return resp;
+    });
   }
 }
 
