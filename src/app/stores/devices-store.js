@@ -3,14 +3,12 @@ import BATCH_TYPE_ENUMS from 'app/constants/BatchTypeEnums';
 
 class DevicesStore {
   @observable
-  deviceTypes = [];
+  deviceTypeName = [];
   @observable
   devices = [];
 
   constructor(rootStore) {
     this.rootStore = rootStore;
-    this.loadEnums();
-    this.loadDevices();
   }
 
   get api() {
@@ -23,9 +21,11 @@ class DevicesStore {
 
   @computed
   get devicesByType() {
-    return this.deviceTypes.map(type =>
-      this.devices.filter(d => d.deviceTypeName === type)
-    );
+    const map = {};
+    this.deviceTypeName.forEach(type => {
+      map[type] = this.devices.filter(d => d.deviceTypeName === type);
+    });
+    return map;
   }
 
   // devices CRUD

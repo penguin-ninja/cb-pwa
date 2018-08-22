@@ -1,13 +1,23 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
 import { Switch, Route } from 'react-router-dom';
 
 import NavigationBar from './components/NavigationBar/NavigationBar';
-import SideBar from './components/SideBar/SideBar';
+import PageLoading from './components/PageLoading/PageLoading';
 
 import Home from './containers/Home/Home';
+import Devices from './containers/Devices/Devices';
 
+@inject('authStore')
+@observer
 class App extends Component {
   render() {
+    const { isLoaded } = this.props.authStore;
+
+    if (!isLoaded) {
+      return <PageLoading />;
+    }
+
     return (
       <div className="page-wrapper">
         <NavigationBar />
@@ -18,9 +28,7 @@ class App extends Component {
             </Switch>
           </div>
         </div>
-        <SideBar>
-          Sidebar placeholder
-        </SideBar>
+        <Devices />
       </div>
     );
   }

@@ -11,6 +11,8 @@ class AuthStore {
   authToken = '';
   @observable
   userId = '';
+  @observable
+  isLoaded = false;
   baseUrl = process.env.REACT_APP_API_BASE_URL || '';
   plantId = 3; // hard coded as 3 for now
 
@@ -21,12 +23,18 @@ class AuthStore {
     this.authToken = storage.getItem('authToken') || '';
     this.userId = storage.getItem('userId') || '';
 
-    this.refresh();
+    // TODO update this process to get auth token from other page
+    this.login('di@demo', '112233')
+      .then(() => this.fetchUserId())
+      .then(() => {
+        this.isLoaded = true;
+      });
+    // this.refresh();
   }
 
   @action
   login(username, password) {
-    this.makeRequest(
+    return this.makeRequest(
       '/api/Authentication',
       {
         login: username,
@@ -41,7 +49,7 @@ class AuthStore {
 
   @action
   fetchUserId() {
-    this.makeAuthorizedRequest('/api/Account/id').then(resp => {
+    return this.makeAuthorizedRequest('/api/Account/id').then(resp => {
       this.userId = resp.userId;
     });
   }
@@ -75,20 +83,22 @@ class AuthStore {
     });
   }
 
-  makeRequest(url, params, method) {
-    if (navigator.onLine) {
+  makeRequest(url, params, method, headers) {
+    if (navigator.onLine && (!method || method === 'GET')) {
       logger.warn(`You are offline. Serving from local storage for ${url}`);
       return Promise.resolve(storage.getItem(url));
     }
 
-    return request(`${this.baseUrl}${url}`, params, method).then(resp => {
-      if (!method || method === 'GET') {
-        logger.debug(`Storing info for ${url}`);
-        storage.setItem(url, resp);
-      }
+    return request(`${this.baseUrl}${url}`, params, method, headers).then(
+      resp => {
+        if (!method || method === 'GET') {
+          logger.debug(`Storing info for ${url}`);
+          storage.setItem(url, resp);
+        }
 
-      return resp;
-    });
+        return resp;
+      }
+    );
   }
 }
 
