@@ -15,6 +15,7 @@
     "react-app-rewire-mobx": "^1.0.8",
     "react-app-rewired": "^1.5.2",
     "react-bootstrap": "^0.32.1",
+    "react-confirm": "^0.1.17",
     "react-dom": "^16.4.2",
     "react-router-bootstrap": "^0.24.4",
     "react-router-dom": "^4.3.1",
