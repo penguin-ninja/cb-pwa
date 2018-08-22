@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import cx from 'classnames';
+import './SideBar.css';
 
 @inject('sidebarStore')
 @observer
@@ -17,10 +18,10 @@ class SideBar extends Component {
         <div className="page-quick-sidebar-wrapper">
           <div className="page-quick-sidebar">
             <a
-              className="quick-sidebar-toggler"
+              className="page-quick-sidebar-toggler"
               onClick={sidebarStore.onToggle}
             >
-              <i className="fa fa-close" />
+              <i className="icon-close" />
             </a>
             {children}
           </div>
