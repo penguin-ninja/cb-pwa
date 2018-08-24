@@ -29,3 +29,7 @@
 @import "partials/cards";
 @import "partials/lists";
 @import "partials/portlets";
+
+select {
+  -webkit-appearance: none;
+}
