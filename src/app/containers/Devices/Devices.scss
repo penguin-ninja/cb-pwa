@@ -1,0 +1,29 @@
+#devices {
+  overflow-y: auto;
+  margin-bottom: 0;
+
+  .panel-heading {
+    position: relative;
+  }
+
+  .btn-devices-add {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+  }
+
+  &.panel-group {
+    .panel + .panel {
+      margin-top: 0;
+    }
+
+    .panel-body {
+      padding: 5px;
+      color: #333;
+    }
+
+    .table {
+      margin-bottom: 0;
+    }
+  }
+}
