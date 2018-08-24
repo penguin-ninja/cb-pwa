@@ -8,7 +8,7 @@ export const Belt = {
   beltStart: 'beltStart',
   beltOnPNo: 'number',
   beltOffPNo: 'number',
-  description: 'string'
+  description: 'text'
 };
 
 export const Bin = {
@@ -118,11 +118,11 @@ export const RemoteDisplay = {
   streaminterval: 'number',
   promptSwitchinterval: 'number',
   displayMode: 'displayMode',
-  promptOne: 'string',
-  promptTwo: 'string',
-  weight: 'string',
-  discharge: 'string',
-  idle: 'string'
+  promptOne: 'text',
+  promptTwo: 'text',
+  weight: 'text',
+  discharge: 'text',
+  idle: 'text'
 };
 
 export const Scale = {
@@ -141,7 +141,7 @@ export const Scale = {
   openGateTwoPNo: 'number',
   closeGateTwoPNo: 'number',
   gateTwoStatusPNo: 'number',
-  name: 'string',
+  name: 'text',
   unit: 'unit',
   capacity: 'number',
   maximumLoad: 'number',
@@ -171,8 +171,8 @@ export const Switch = {
   switchOnPNo: 'number',
   switchOffPNo: 'number',
   switchStatusPNo: 'number',
-  switchOnLabel: 'string',
-  switchOffLabel: 'string',
+  switchOnLabel: 'text',
+  switchOffLabel: 'text',
   offTrigerStatusPNo: 'number'
 };
 
