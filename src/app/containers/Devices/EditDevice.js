@@ -14,6 +14,7 @@ import startCase from 'lodash/startCase';
 import omit from 'lodash/omit';
 import LoadingButton from 'app/components/LoadingButton/LoadingButton';
 import * as DEVICE_MODELS from 'app/constants/DeviceModels';
+import { DEFAULT_ENUM } from 'app/constants/BatchTypeEnums';
 
 @inject('devicesStore')
 @observer
@@ -136,7 +137,7 @@ class EditDevice extends Component {
           />
         );
       default:
-        const options = devicesStore[type];
+        const options = devicesStore[type] || DEFAULT_ENUM;
         return (
           <FormControl name={name} componentClass="select" disabled={disabled}>
             <option value="">- Select -</option>
