@@ -6,6 +6,12 @@ class DevicesStore {
   deviceTypeName = [];
   @observable
   devices = [];
+  @observable
+  isEditing = false;
+  @observable
+  editingDeviceId = null;
+  @observable
+  editingDeviceTypeName = null;
 
   constructor(rootStore) {
     this.rootStore = rootStore;
@@ -20,6 +26,11 @@ class DevicesStore {
   }
 
   @computed
+  get editingDevice() {
+    return this.getDeviceById(this.editingDeviceId);
+  }
+
+  @computed
   get devicesByType() {
     const map = {};
     this.deviceTypeName.forEach(type => {
@@ -27,6 +38,24 @@ class DevicesStore {
     });
     return map;
   }
+
+  getDeviceById = id => {
+    return this.devices.find(d => d.id === id);
+  };
+
+  @action
+  startEdit = (id, type) => {
+    this.isEditing = true;
+    this.editingDeviceId = id;
+    this.editingDeviceTypeName = type;
+  };
+
+  @action
+  cancelEdit = () => {
+    this.isEditing = false;
+    this.editingDeviceId = null;
+    this.editingDeviceTypeName = null;
+  };
 
   // devices CRUD
   @action
