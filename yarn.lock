@@ -2725,7 +2725,7 @@ fb-watchman@^2.0.0:
   dependencies:
     bser "^2.0.0"
 
-fbjs@^0.8.16:
+fbjs@^0.8.16, fbjs@^0.8.17:
   version "0.8.17"
   resolved "https://registry.yarnpkg.com/fbjs/-/fbjs-0.8.17.tgz#c4d598ead6949112653d6588b01a5cdcd9f90fdd"
   dependencies:
@@ -4247,6 +4247,10 @@ klaw@^1.0.0:
   resolved "https://registry.yarnpkg.com/klaw/-/klaw-1.3.1.tgz#4088433b46b3b1ba259d78785d8e96f73ba02439"
   optionalDependencies:
     graceful-fs "^4.1.9"
+
+konva@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/konva/-/konva-2.2.2.tgz#e83c8a2ec979f31b10793f3b001554715f26b7bc"
 
 latest-version@^3.0.0:
   version "3.1.0"
@@ -5870,6 +5874,13 @@ react-is@^16.3.2:
   version "16.4.2"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.4.2.tgz#84891b56c2b6d9efdee577cc83501dfc5ecead88"
 
+react-konva@^1.7.14:
+  version "1.7.14"
+  resolved "https://registry.yarnpkg.com/react-konva/-/react-konva-1.7.14.tgz#8f67529a1cf65694508637eb4832d2494e33ecc9"
+  dependencies:
+    fbjs "^0.8.17"
+    react-reconciler "^0.12.0"
+
 react-lifecycles-compat@^3.0.2, react-lifecycles-compat@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz#4f1a273afdfc8f3488a8c516bfda78f872352362"
@@ -5891,9 +5902,14 @@ react-prop-types@^0.4.0:
   dependencies:
     warning "^3.0.0"
 
-react-raphael@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/react-raphael/-/react-raphael-0.9.0.tgz#36a2353641b83e68f323089d747a150a13f052cf"
+react-reconciler@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/react-reconciler/-/react-reconciler-0.12.0.tgz#dd3ecd98f64a2d8449298dadab041910cafd2849"
+  dependencies:
+    fbjs "^0.8.16"
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.0"
 
 react-router-bootstrap@^0.24.4:
   version "0.24.4"
