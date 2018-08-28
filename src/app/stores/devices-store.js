@@ -1,4 +1,4 @@
-import { observable, action, computed, extendObservable } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import BATCH_TYPE_ENUMS from 'app/constants/BatchTypeEnums';
 
 class DevicesStore {
@@ -72,41 +72,39 @@ class DevicesStore {
     return this.api
       .makeAuthorizedRequest(
         `/api/batch/DeviceManager/plant/${this.plantId}/${deviceType}`,
-        {
-          [deviceType]: device
-        },
+        device,
         'POST'
       )
-      .then(() => {
-        this.devices[deviceType] = this.devices[deviceType] || [];
-        this.devices[deviceType].push(device);
+      .then(newDevice => {
+        this.devices.push(newDevice);
       });
   }
 
   @action
-  updateDevice(deviceId, deviceType, device) {
+  updateDevice = (deviceId, deviceType, device) => {
     // NOTE check if this API requires all properteis
     return this.api
       .makeAuthorizedRequest(
         `/api/batch/DeviceManager/${deviceType}/${deviceId}`,
-        {
-          [deviceType]: device
-        },
+        device,
         'PUT'
       )
       .then(() => {
-        const index = this.devices[deviceType].findIndex(
-          d => d.id === deviceId
+        const index = this.devices.findIndex(
+          d => d.id === deviceId && d.deviceTypeName === deviceType
         );
 
         if (index > -1) {
-          extendObservable(this.devices[deviceType][index], device);
+          this.devices[index] = {
+            id: deviceId,
+            ...device
+          };
         }
       });
-  }
+  };
 
   @action
-  deleteDevice(deviceId, deviceType) {
+  deleteDevice = (deviceId, deviceType) => {
     return this.api
       .makeAuthorizedRequest(
         `/api/batch/DeviceManager/${deviceId}`,
@@ -114,11 +112,11 @@ class DevicesStore {
         'DELETE'
       )
       .then(() => {
-        this.devices[deviceType] = this.devices[deviceType].filter(
-          d => d.id !== deviceId
+        this.devices = this.devices.filter(
+          d => d.id !== deviceId && d.deviceTypeName === deviceType
         );
       });
-  }
+  };
 
   // Device Enums
   @action

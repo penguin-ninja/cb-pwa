@@ -6,14 +6,14 @@ import { confirm } from 'app/utils/modals';
 
 class DeviceGroup extends Component {
   deleteDevice = deviceId => {
-    const { deviceTypeName } = this.props;
+    const { deviceTypeName, onDelete } = this.props;
     confirm({
       title: `Are you sure you want to delete ${deviceTypeName} #${deviceId}?`,
       okLabel: 'Yes',
       cancelLabel: 'No'
     })
       .then(() => {
-        // TODO
+        return onDelete(deviceId, deviceTypeName);
       })
       .catch(() => {});
   };

@@ -16,7 +16,12 @@ class Devices extends Component {
   }
 
   render() {
-    const { devicesByType, isEditing, startEdit } = this.props.devicesStore;
+    const {
+      devicesByType,
+      isEditing,
+      startEdit,
+      deleteDevice
+    } = this.props.devicesStore;
 
     return (
       <SideBar>
@@ -30,6 +35,7 @@ class Devices extends Component {
               devices={devicesByType[key]}
               deviceTypeName={key}
               onEdit={startEdit}
+              onDelete={deleteDevice}
             />
           ))}
         </PanelGroup>

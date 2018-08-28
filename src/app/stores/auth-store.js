@@ -24,7 +24,7 @@ class AuthStore {
     this.userId = storage.getItem('userId') || '';
 
     // TODO update this process to get auth token from other page
-    this.login('di@demo', '112233')
+    this.login(username, password)
       .then(() => this.fetchUserId())
       .then(() => {
         this.isLoaded = true;
@@ -84,7 +84,7 @@ class AuthStore {
   }
 
   makeRequest(url, params, method, headers) {
-    if (navigator.onLine && (!method || method === 'GET')) {
+    if (!navigator.onLine && (!method || method === 'GET')) {
       logger.warn(`You are offline. Serving from local storage for ${url}`);
       return Promise.resolve(storage.getItem(url));
     }
