@@ -7,6 +7,7 @@ import PageLoading from './components/PageLoading/PageLoading';
 
 import Home from './containers/Home/Home';
 import Devices from './containers/Devices/Devices';
+import Diagnose from './containers/Diagnose/Diagnose';
 
 @inject('authStore')
 @observer
@@ -28,6 +29,7 @@ class App extends Component {
             </Switch>
           </div>
         </div>
+        <Diagnose />
         <Devices />
       </div>
     );
