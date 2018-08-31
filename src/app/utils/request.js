@@ -41,7 +41,7 @@ export default function request(
     }
   }
 
-  logger.log('Making request', url, options, headers);
+  logger.log('Making request', requestUrl, options, headers);
   return fetch(requestUrl, {
     ...options,
     headers: {
