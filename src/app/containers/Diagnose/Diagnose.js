@@ -10,13 +10,18 @@ import './Diagnose.css';
 class Diagnose extends Component {
   renderInputs() {
     const buttons = [];
-    for (let i = 1; i <= 96; i++) {
+    const { diagnoseStore } = this.props;
+    const { inputs } = diagnoseStore;
+
+    for (let i = 1; i <= 48; i++) {
+      const value = inputs[i - 1];
+
       buttons.push(
         <Button
           key={`input_${i}`}
           className="btn-diagnose-input"
           bsSize="xs"
-          // bsStyle="success"
+          bsStyle={value === '1' ? 'success' : undefined}
         >
           {i}
         </Button>
@@ -31,17 +36,6 @@ class Diagnose extends Component {
       <div className="diagnose-inputs">
         <h4>Inputs</h4>
         <div className="form-group">{buttons}</div>
-        <div className="form-group">
-          <Button bsSize="sm" className="btn-diagnose-test default">
-            All Inputs On
-          </Button>
-          <Button bsSize="sm" className="btn-diagnose-test default">
-            All Inputs Off
-          </Button>
-          <Button bsSize="sm" className="btn-diagnose-test default">
-            Auto Test
-          </Button>
-        </div>
         <hr />
       </div>
     );
@@ -49,13 +43,19 @@ class Diagnose extends Component {
 
   renderOutputs() {
     const buttons = [];
-    for (let i = 1; i <= 48; i++) {
+    const { diagnoseStore } = this.props;
+    const { outputs } = diagnoseStore;
+
+    for (let i = 1; i <= 96; i++) {
+      const value = outputs[i - 1];
+
       buttons.push(
         <Button
           key={`outputs_${i}`}
           className="btn-diagnose-output"
           bsSize="xs"
-          // bsStyle="danger"
+          bsStyle={value === '1' ? 'danger' : undefined}
+          onClick={() => diagnoseStore.setOutput(i, value === '1' ? '0' : '1')}
         >
           {i}
         </Button>
@@ -71,16 +71,69 @@ class Diagnose extends Component {
         <h4>Outputs</h4>
         <div className="form-group">{buttons}</div>
         <div className="form-group">
-          <Button bsSize="sm" className="btn-diagnose-test default">
+          <Button
+            bsSize="sm"
+            className="btn-diagnose-test default"
+            onClick={() => diagnoseStore.setAllOutputs('1')}
+          >
             All Outputs On
           </Button>
-          <Button bsSize="sm" className="btn-diagnose-test default">
+          <Button
+            bsSize="sm"
+            className="btn-diagnose-test default"
+            onClick={() => diagnoseStore.setAllOutputs('0')}
+          >
             All Outputs Off
           </Button>
-          <Button bsSize="sm" className="btn-diagnose-test default">
-            Auto Test
-          </Button>
+          {diagnoseStore.isTesting ? (
+            <Button
+              bsSize="sm"
+              className="btn-diagnose-test default"
+              onClick={diagnoseStore.stopOutputTest}
+            >
+              Stop Test
+            </Button>
+          ) : (
+            <Button
+              bsSize="sm"
+              className="btn-diagnose-test default"
+              onClick={diagnoseStore.startOutputTest}
+            >
+              Auto Test
+            </Button>
+          )}
         </div>
+        <hr />
+      </div>
+    );
+  }
+
+  renderChannels() {
+    const buttons = [];
+    const { diagnoseStore } = this.props;
+    const { channels } = diagnoseStore;
+
+    for (let i = 1; i <= 16; i++) {
+      buttons.push(
+        <Button
+          key={`channels_${i}`}
+          className="btn-diagnose-channel"
+          bsSize="xs"
+          // bsStyle="danger"
+        >
+          {channels[i - 1]}
+        </Button>
+      );
+
+      if (i % 8 === 0) {
+        buttons.push(<br key={`channel_br_${i}`} />);
+      }
+    }
+
+    return (
+      <div className="diagnose-channels">
+        <h4>Channels</h4>
+        <div className="form-group">{buttons}</div>
       </div>
     );
   }
@@ -90,16 +143,17 @@ class Diagnose extends Component {
     const { showModal, onHide } = diagnoseStore;
 
     return (
-      <Modal show={showModal} onHide={onHide}>
+      <Modal show={showModal} onHide={onHide} bsSize="lg">
         <Modal.Header closeButton>
           <Modal.Title>Diagnose</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {this.renderInputs()}
           {this.renderOutputs()}
+          {this.renderChannels()}
         </Modal.Body>
         <Modal.Footer>
-          <Button onClick={onHide}>Cancel</Button>
+          <Button onClick={onHide}>Close</Button>
         </Modal.Footer>
       </Modal>
     );
