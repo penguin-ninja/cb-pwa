@@ -12,6 +12,8 @@ class DiagnoseStore {
   channels = Array(16).fill('0');
   @observable
   isTesting = false;
+  @observable
+  ticks = null;
 
   constructor(rootStore) {
     this.rootStore = rootStore;
@@ -25,6 +27,7 @@ class DiagnoseStore {
   loadStatus = () => {
     return this.pac.run('get-status').then(result => {
       console.log(result);
+      this.ticks = result.ticks;
       this.inputs = result.inputs
         .replace(/\./g, '')
         .trim()

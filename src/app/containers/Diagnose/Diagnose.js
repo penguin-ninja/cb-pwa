@@ -140,12 +140,12 @@ class Diagnose extends Component {
 
   render() {
     const { diagnoseStore } = this.props;
-    const { showModal, onHide } = diagnoseStore;
+    const { showModal, onHide, ticks } = diagnoseStore;
 
     return (
       <Modal show={showModal} onHide={onHide} bsSize="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Diagnose</Modal.Title>
+          <Modal.Title>Diagnose <small>(ticks - {ticks})</small></Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {this.renderInputs()}
