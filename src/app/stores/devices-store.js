@@ -12,6 +12,16 @@ class DevicesStore {
   editingDeviceId = null;
   @observable
   editingDeviceTypeName = null;
+  @observable
+  deviceGUIs = [];
+
+  defaultGUI = {
+    x: 0,
+    y: 0,
+    z: 0,
+    size: 100,
+    length: 100
+  };
 
   constructor(rootStore) {
     this.rootStore = rootStore;
@@ -39,6 +49,15 @@ class DevicesStore {
     return map;
   }
 
+  getDeviceGUIById = id => {
+    return (
+      this.deviceGUIs.find(d => d.id === id) || {
+        ...this.defaultGUI,
+        deviceId: id
+      }
+    );
+  };
+
   getDeviceById = id => {
     return this.devices.find(d => d.id === id);
   };
@@ -64,6 +83,15 @@ class DevicesStore {
       .makeAuthorizedRequest(`/api/batch/DeviceManager/plant/${this.plantId}`)
       .then(resp => {
         this.devices = resp;
+      });
+  }
+
+  @action
+  loadDeviceGUIs() {
+    return this.api
+      .makeAuthorizedRequest(`/api/batch/DeviceGui/plant/${this.plantId}`)
+      .then(resp => {
+        this.deviceGUIs = resp;
       });
   }
 
