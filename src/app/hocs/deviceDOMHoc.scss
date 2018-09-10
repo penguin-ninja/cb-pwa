@@ -1,0 +1,9 @@
+.device-dom {
+  &__wrapper {
+    border: 1px solid black;
+  }
+
+  &__edit {
+    cursor: pointer;
+  }
+}
