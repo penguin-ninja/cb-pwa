@@ -13,6 +13,7 @@ class Devices extends Component {
   componentDidMount() {
     this.props.devicesStore.loadEnums();
     this.props.devicesStore.loadDevices();
+    this.props.devicesStore.loadDeviceGUIs();
   }
 
   render() {
