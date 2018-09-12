@@ -1,9 +1,15 @@
+@import 'modules/mixins';
+
 .device-dom {
   &__wrapper {
-    border: 1px solid black;
+    background: #f1f4f7;
+    @include level(2);
   }
 
   &__edit {
     cursor: pointer;
+    right: 10px;
+    top: 10px;
+    position: absolute;
   }
 }
