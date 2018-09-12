@@ -7,9 +7,11 @@ class Aerator extends Component {
   // }
 
   render() {
-    const { x, y, width, height } = this.props;
+    const { x, y, width, height, device } = this.props;
 
-    return <div className="device--aerator">Aerator</div>;
+    return (
+      <div className="device-gui device--aerator">{device.description}</div>
+    );
   }
 }
 
