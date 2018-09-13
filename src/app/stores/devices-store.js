@@ -1,4 +1,5 @@
 import { observable, action, computed } from 'mobx';
+import debounce from 'lodash/debounce';
 import BATCH_TYPE_ENUMS from 'app/constants/BatchTypeEnums';
 
 class DevicesStore {
@@ -16,8 +17,8 @@ class DevicesStore {
   deviceGUIs = [];
 
   defaultGUI = {
-    x: 0,
-    y: 0,
+    x: 100,
+    y: 100,
     z: 0,
     size: 100,
     length: 100
@@ -49,11 +50,11 @@ class DevicesStore {
     return map;
   }
 
-  getDeviceGUIById = id => {
+  getDeviceGUIById = deviceId => {
     return (
-      this.deviceGUIs.find(d => d.id === id) || {
+      this.deviceGUIs.find(d => d.deviceId === deviceId) || {
         ...this.defaultGUI,
-        deviceId: id
+        deviceId
       }
     );
   };
@@ -94,6 +95,39 @@ class DevicesStore {
         this.deviceGUIs = resp;
       });
   }
+
+  @action
+  upsertDeviceGUI(deviceId, params) {
+    let gui = this.deviceGUIs.find(d => d.deviceId === deviceId);
+
+    if (!gui) {
+      gui = {
+        deviceId,
+        ...this.defaultGUI,
+        ...params
+      };
+      this.deviceGUIs.push(gui);
+    } else {
+      Object.assign(gui, params);
+    }
+
+    return this.debouncedSaveGUI(deviceId, gui);
+  }
+
+  @action
+  debouncedSaveGUI = debounce((id, params) => {
+    return this.api.makeAuthorizedRequest(
+      `/api/batch/DeviceGui/plant/${this.plantId}/device/${id}`,
+      {
+        x: params.x,
+        y: params.y,
+        z: params.z,
+        length: params.length,
+        size: params.size
+      },
+      'POST'
+    );
+  }, 500);
 
   @action
   createDevice(deviceType, device) {
