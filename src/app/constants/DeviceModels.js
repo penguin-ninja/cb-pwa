@@ -167,6 +167,13 @@ export const Scale = {
   zeroOffset: 'number' // double
 };
 
+export const Screw = {
+  screwType: 'screwType',
+  switchOnePNo: 'number',
+  switchTwoPNo: 'number',
+  switchOffPNo: 'number'
+};
+
 export const Switch = {
   switchOnPNo: 'number',
   switchOffPNo: 'number',
