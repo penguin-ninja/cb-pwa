@@ -19,10 +19,36 @@ export default function deviceDOMHoc(WrappedComponent) {
       });
     };
 
+    renderDesc() {
+      return (
+        <div className="device-dom__title">{this.props.device.description}</div>
+      );
+    }
+
     renderEdit() {
       const { onEdit } = this.props;
 
-      return <i className="fa fa-pencil device-dom__edit" onClick={onEdit} />;
+      return (
+        <a
+          className="btn btn-circle btn-icon-only btn-default btn-xs device-dom__edit"
+          onClick={onEdit}
+        >
+          <i className="icon-pencil" />
+        </a>
+      );
+    }
+
+    renderDelete() {
+      const { onDelete } = this.props;
+
+      return (
+        <a
+          className="btn btn-circle btn-icon-only btn-default btn-xs device-dom__delete"
+          onClick={onDelete}
+        >
+          <i className="icon-trash" />
+        </a>
+      );
     }
 
     render() {
@@ -35,11 +61,15 @@ export default function deviceDOMHoc(WrappedComponent) {
           className="device-dom__wrapper"
           position={position}
           size={size}
+          minWidth={100}
+          minHeight={30}
           onDragStop={this.onDragStop}
           onResize={this.onResize}
         >
+          {this.renderDesc()}
           <WrappedComponent {...this.props} />
           {this.renderEdit()}
+          {this.renderDelete()}
         </Rnd>
       );
     }
