@@ -1,0 +1,28 @@
+.device-gui__display {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px !important;
+  margin: 5px !important;
+
+  &-item {
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    &__title {
+      opacity: 0.8;
+      font-size: 0.85em;
+      margin-right: 5px;
+    }
+
+    &__value {
+      font-weight: 500;
+    }
+  }
+}
