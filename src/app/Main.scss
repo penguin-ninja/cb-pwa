@@ -1,34 +1,36 @@
 /* ConcreteGo variables */
-@import "modules/variables";
+@import 'modules/variables';
 
 /* METRONIC THEME STYLES */
 /* core 3rd party plugins */
-@import "modules/metronic-plugins/font-awesome";
-@import "modules/metronic-plugins/simple-line-icons";
-@import "modules/metronic/bootstrap";
-@import "modules/metronic-plugins/bootstrap-switch";
+@import 'modules/metronic-plugins/font-awesome';
+@import 'modules/metronic-plugins/simple-line-icons';
+@import 'modules/metronic/bootstrap';
+@import 'modules/metronic-plugins/bootstrap-switch';
 
 /* additional 3rd party plugins */
 
 /* core Metronic specific styles w/ 3rd plugins overrides */
-@import "modules/metronic/global/components/_reset-rounds";
-@import "modules/metronic/global/components";
+@import 'modules/metronic/global/components/_reset-rounds';
+@import 'modules/metronic/global/components';
 // @import "modules/metronic/global/plugins";
-@import "modules/metronic/layouts/layout/layout";
-@import "modules/metronic/layouts/layout/themes/darkblue";
+@import 'modules/metronic/layouts/layout/layout';
+@import 'modules/metronic/layouts/layout/themes/darkblue';
 
 /* Metronic pages styles */
-@import "modules/metronic/pages/error";
+@import 'modules/metronic/pages/error';
 
 /* ConcreteGo STYLES */
-@import "modules/mixins";
-@import "modules/animate";
+@import 'modules/mixins';
+@import 'modules/animate';
 
-@import "partials/scaffolding";
-@import "partials/buttons";
-@import "partials/cards";
-@import "partials/lists";
-@import "partials/portlets";
+@import 'partials/scaffolding';
+@import 'partials/buttons';
+@import 'partials/cards';
+@import 'partials/lists';
+@import 'partials/portlets';
+
+@import '~react-toggle/style.css';
 
 select {
   -webkit-appearance: none;
