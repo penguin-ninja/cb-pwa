@@ -1,0 +1,27 @@
+@import 'modules/mixins';
+
+.non-device {
+  &__button {
+    @include level(1);
+    position: relative;
+    text-align: center;
+    padding: 8px 25px !important;
+  }
+
+  &__title {
+    display: block;
+  }
+
+  .fa {
+    font-size: 2em;
+    line-height: 1 !important;
+    display: block !important;
+  }
+
+  &__shortkey {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    font-size: 0.85em;
+  }
+}
