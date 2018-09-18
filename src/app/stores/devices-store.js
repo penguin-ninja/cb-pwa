@@ -2,6 +2,7 @@ import { observable, action, computed } from 'mobx';
 import debounce from 'lodash/debounce';
 import { confirm } from 'app/utils/modals';
 import DEFAULT_GUI from 'app/constants/DefaultGUI';
+import DEFAULT_NON_DEVICE_GUI from 'app/constants/DefaultNonDeviceGUI';
 import BATCH_TYPE_ENUMS from 'app/constants/BatchTypeEnums';
 
 class DevicesStore {
@@ -17,6 +18,8 @@ class DevicesStore {
   editingDeviceTypeName = null;
   @observable
   deviceGUIs = [];
+  @observable
+  guiLoaded = false;
 
   constructor(rootStore) {
     this.rootStore = rootStore;
@@ -46,9 +49,18 @@ class DevicesStore {
 
   getDeviceGUIById = (deviceId, type) => {
     return (
-      this.deviceGUIs.find(d => d.deviceId === deviceId) || {
+      this.deviceGUIs.find(d => `${d.iconName}` === `${deviceId}`) || {
         ...DEFAULT_GUI[type],
-        deviceId
+        iconName: `${deviceId}`
+      }
+    );
+  };
+
+  getNonDeviceGUIById = id => {
+    return (
+      this.deviceGUIs.find(d => `${d.iconName}` === `n-${id}`) || {
+        ...DEFAULT_NON_DEVICE_GUI[id],
+        iconName: `n-${id}`
       }
     );
   };
@@ -84,19 +96,20 @@ class DevicesStore {
   @action
   loadDeviceGUIs() {
     return this.api
-      .makeAuthorizedRequest(`/api/batch/DeviceGui/plant/${this.plantId}`)
+      .makeAuthorizedRequest(`/api/batch/Gui/plant/${this.plantId}`)
       .then(resp => {
+        this.guiLoaded = true;
         this.deviceGUIs = resp;
       });
   }
 
   @action
   upsertDeviceGUI(deviceId, type, params) {
-    let gui = this.deviceGUIs.find(d => d.deviceId === deviceId);
+    let gui = this.deviceGUIs.find(d => `${d.iconName}` === `${deviceId}`);
 
     if (!gui) {
       gui = {
-        deviceId,
+        iconName: `${deviceId}`,
         ...DEFAULT_GUI[type],
         ...params
       };
@@ -109,9 +122,27 @@ class DevicesStore {
   }
 
   @action
+  upsertNonDeviceGUI(id, params) {
+    let gui = this.deviceGUIs.find(d => `${d.iconName}` === `n-${id}`);
+
+    if (!gui) {
+      gui = {
+        iconName: `n-${id}`,
+        ...DEFAULT_NON_DEVICE_GUI[id],
+        ...params
+      };
+      this.deviceGUIs.push(gui);
+    } else {
+      Object.assign(gui, params);
+    }
+
+    return this.debouncedSaveGUI(`n-${id}`, gui);
+  }
+
+  @action
   debouncedSaveGUI = debounce((id, params) => {
     return this.api.makeAuthorizedRequest(
-      `/api/batch/DeviceGui/plant/${this.plantId}/device/${id}`,
+      `/api/batch/Gui/plant/${this.plantId}/icon/${id}`,
       {
         x: parseInt(params.x, 10),
         y: parseInt(params.y, 10),
