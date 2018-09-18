@@ -2,20 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Panel from 'react-bootstrap/lib/Panel';
 import Table from 'react-bootstrap/lib/Table';
-import { confirm } from 'app/utils/modals';
 
 class DeviceGroup extends Component {
   deleteDevice = deviceId => {
     const { deviceTypeName, onDelete } = this.props;
-    confirm({
-      title: `Are you sure you want to delete ${deviceTypeName} #${deviceId}?`,
-      okLabel: 'Yes',
-      cancelLabel: 'No'
-    })
-      .then(() => {
-        return onDelete(deviceId, deviceTypeName);
-      })
-      .catch(() => {});
+    onDelete(deviceId, deviceTypeName);
   };
 
   newDevice = () => {

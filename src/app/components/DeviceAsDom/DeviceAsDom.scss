@@ -1,8 +1,115 @@
+@import 'modules/mixins';
+
+$gui-default: #fff;
+$aerator: #5782be;
+$scale: #e08e83;
+$belt: #f7ca18;
+$bin: #c8d046;
+$pump: #8e44ad;
+$bottle: #bf55ec;
+$tank: #f278cb;
+
+// 32c5d2
+//
+// f278cb
+
 .device-gui {
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+
+  background: $gui-default;
+
+  &--aerator {
+    background: $aerator;
+
+    .progress {
+      align-self: stretch;
+      margin: 10px 10px 0;
+    }
+  }
+
+  &--scale {
+    background: $scale;
+  }
+
+  &--belt {
+    background: $belt;
+
+    .progress {
+      align-self: stretch;
+      margin: 5px 10px 0;
+    }
+  }
+
+  &--bin {
+    background: $bin;
+  }
+
+  &--pump {
+    background: $pump;
+  }
+
+  &--bottle {
+    background: $bottle;
+  }
+
+  &--vibrator {
+    background: $bottle;
+  }
+
+  &--dust-collector {
+    background: $pump;
+  }
+
+  &--screw {
+    background: $bin;
+  }
+
+  &--tank {
+    background: $tank;
+  }
+
+  &--horn {
+    background: $tank;
+  }
+
+  &--switch {
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &__toggle {
+    @include level(2);
+
+    &--active {
+      margin-top: 1px;
+      margin-left: 1px;
+      @include level(0);
+    }
+  }
+
+  .react-toggle-track-check {
+    color: #fff;
+    line-height: 23px;
+    left: 5px;
+    margin: 0;
+    width: inherit;
+    height: inherit;
+  }
+
+  .react-toggle-track-x {
+    color: #fff;
+    line-height: 23px;
+    right: 5px;
+    margin: 0;
+    width: auto;
+    height: auto;
+  }
 }

@@ -1,5 +1,7 @@
 import { observable, action, computed } from 'mobx';
 import debounce from 'lodash/debounce';
+import { confirm } from 'app/utils/modals';
+import DEFAULT_GUI from 'app/constants/DefaultGUI';
 import BATCH_TYPE_ENUMS from 'app/constants/BatchTypeEnums';
 
 class DevicesStore {
@@ -15,14 +17,6 @@ class DevicesStore {
   editingDeviceTypeName = null;
   @observable
   deviceGUIs = [];
-
-  defaultGUI = {
-    x: 100,
-    y: 100,
-    z: 0,
-    size: 100,
-    length: 100
-  };
 
   constructor(rootStore) {
     this.rootStore = rootStore;
@@ -50,10 +44,10 @@ class DevicesStore {
     return map;
   }
 
-  getDeviceGUIById = deviceId => {
+  getDeviceGUIById = (deviceId, type) => {
     return (
       this.deviceGUIs.find(d => d.deviceId === deviceId) || {
-        ...this.defaultGUI,
+        ...DEFAULT_GUI[type],
         deviceId
       }
     );
@@ -97,13 +91,13 @@ class DevicesStore {
   }
 
   @action
-  upsertDeviceGUI(deviceId, params) {
+  upsertDeviceGUI(deviceId, type, params) {
     let gui = this.deviceGUIs.find(d => d.deviceId === deviceId);
 
     if (!gui) {
       gui = {
         deviceId,
-        ...this.defaultGUI,
+        ...DEFAULT_GUI[type],
         ...params
       };
       this.deviceGUIs.push(gui);
@@ -119,11 +113,11 @@ class DevicesStore {
     return this.api.makeAuthorizedRequest(
       `/api/batch/DeviceGui/plant/${this.plantId}/device/${id}`,
       {
-        x: params.x,
-        y: params.y,
-        z: params.z,
-        length: params.length,
-        size: params.size
+        x: parseInt(params.x, 10),
+        y: parseInt(params.y, 10),
+        z: parseInt(params.z, 10),
+        length: parseInt(params.length, 10),
+        size: parseInt(params.size, 10)
       },
       'POST'
     );
@@ -147,7 +141,9 @@ class DevicesStore {
     // NOTE check if this API requires all properteis
     return this.api
       .makeAuthorizedRequest(
-        `/api/batch/DeviceManager/${deviceType}/${deviceId}`,
+        `/api/batch/DeviceManager/plant/${
+          this.plantId
+        }/${deviceType}/${deviceId}`,
         device,
         'PUT'
       )
@@ -166,17 +162,28 @@ class DevicesStore {
   };
 
   @action
+  confirmDeleteDevice = (deviceId, deviceType) => {
+    return confirm({
+      title: `Are you sure you want to delete ${deviceType} #${deviceId}?`,
+      okLabel: 'Yes',
+      cancelLabel: 'No'
+    })
+      .then(() => {
+        return this.deleteDevice(deviceId, deviceType);
+      })
+      .catch(() => {});
+  };
+
+  @action
   deleteDevice = (deviceId, deviceType) => {
     return this.api
       .makeAuthorizedRequest(
-        `/api/batch/DeviceManager/${deviceId}`,
+        `/api/batch/DeviceManager/plant/${this.plantId}/device/${deviceId}`,
         null,
         'DELETE'
       )
       .then(() => {
-        this.devices = this.devices.filter(
-          d => d.id !== deviceId && d.deviceTypeName === deviceType
-        );
+        this.devices = this.devices.filter(d => d.id !== deviceId);
       });
   };
 

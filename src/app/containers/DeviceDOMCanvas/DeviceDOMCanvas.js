@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import Device from 'app/components/DeviceAsDom';
+import NonDevice from 'app/components/NonDevice/NonDevice';
 import './DeviceDOMCanvas.css';
 
 @inject('devicesStore')
@@ -8,7 +9,7 @@ import './DeviceDOMCanvas.css';
 class DeviceDOMCanvas extends Component {
   renderDevice(device) {
     const { devicesStore } = this.props;
-    const gui = devicesStore.getDeviceGUIById(device.id);
+    const gui = devicesStore.getDeviceGUIById(device.id, device.deviceTypeName);
     const DeviceComponent = Device[device.deviceTypeName];
 
     return (
@@ -20,8 +21,13 @@ class DeviceDOMCanvas extends Component {
         width={gui.length}
         height={gui.size}
         device={device}
+        onDelete={() =>
+          devicesStore.confirmDeleteDevice(device.id, device.deviceTypeName)
+        }
         onEdit={() => devicesStore.startEdit(device.id, device.deviceTypeName)}
-        onUpdate={params => devicesStore.upsertDeviceGUI(device.id, params)}
+        onUpdate={params =>
+          devicesStore.upsertDeviceGUI(device.id, device.deviceTypeName, params)
+        }
       />
     );
   }
@@ -31,6 +37,15 @@ class DeviceDOMCanvas extends Component {
     return (
       <div className="device-dom-canvas">
         {devices.map(d => this.renderDevice(d))}
+        <NonDevice
+          title="Discharge"
+          icon="arrow-circle-down"
+          width={100}
+          height={50}
+          x={1200}
+          y={100}
+          shortKey="F2"
+        />
       </div>
     );
   }

@@ -21,7 +21,7 @@ class Devices extends Component {
       devicesByType,
       isEditing,
       startEdit,
-      deleteDevice
+      confirmDeleteDevice
     } = this.props.devicesStore;
 
     return (
@@ -36,7 +36,7 @@ class Devices extends Component {
               devices={devicesByType[key]}
               deviceTypeName={key}
               onEdit={startEdit}
-              onDelete={deleteDevice}
+              onDelete={confirmDeleteDevice}
             />
           ))}
         </PanelGroup>
