@@ -9,6 +9,7 @@ import {
 
 class Tank extends Component {
   render() {
+    const { device } = this.props;
     return (
       <div className="device-gui device-gui--tank">
         <div className="device-gui__row">
@@ -16,7 +17,7 @@ class Tank extends Component {
             <DisplayItem title="Status">IDLE</DisplayItem>
             <DisplayItem title="Input Status">None</DisplayItem>
             <DisplayItem>
-              <PushButton bsStyle="info">On/Off</PushButton>
+              <PushButton port={device.gatePNo} />
             </DisplayItem>
           </Display>
           <VerticalProgress value={30} />

@@ -1,0 +1,10 @@
+@import 'modules/mixins';
+
+.device-gui__push-button {
+  @include level(2);
+  user-select: none;
+
+  &--active {
+    @include level(0);
+  }
+}

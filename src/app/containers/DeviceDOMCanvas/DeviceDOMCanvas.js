@@ -2,11 +2,29 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import Device from 'app/components/DeviceAsDom';
 import NonDevice from 'app/components/NonDevice/NonDevice';
+import NON_DEVICES from 'app/constants/NonDevices';
 import './DeviceDOMCanvas.css';
 
-@inject('devicesStore')
+@inject('devicesStore', 'batchStore')
 @observer
 class DeviceDOMCanvas extends Component {
+  onUpdateNonDevice = (id, params) => {
+    return this.props.devicesStore.upsertNonDeviceGUI(id, params);
+  };
+
+  handleNonDeviceClick = id => {
+    const { batchStore } = this.props;
+    switch (id) {
+      case 'demo':
+        batchStore.start();
+        break;
+      case 'abort':
+        batchStore.stop();
+        break;
+      default:
+    }
+  };
+
   renderDevice(device) {
     const { devicesStore } = this.props;
     const gui = devicesStore.getDeviceGUIById(device.id, device.deviceTypeName);
@@ -32,20 +50,38 @@ class DeviceDOMCanvas extends Component {
     );
   }
 
+  renderNonDevice(nonDevice) {
+    const { devicesStore } = this.props;
+    const gui = devicesStore.getNonDeviceGUIById(nonDevice.id);
+
+    return (
+      <NonDevice
+        key={`non-device-${nonDevice.id}`}
+        title={nonDevice.title}
+        icon={nonDevice.icon}
+        shortKey={nonDevice.shortKey}
+        x={gui.x}
+        y={gui.y}
+        z={gui.z}
+        width={gui.length}
+        height={gui.size}
+        onUpdate={params =>
+          this.props.devicesStore.upsertNonDeviceGUI(nonDevice.id, params)
+        }
+        onClick={() => this.handleNonDeviceClick(nonDevice.id)}
+      />
+    );
+  }
+
   render() {
-    const { devices } = this.props.devicesStore;
+    const { devices, guiLoaded } = this.props.devicesStore;
+
+    if (!guiLoaded) return null;
+
     return (
       <div className="device-dom-canvas">
         {devices.map(d => this.renderDevice(d))}
-        <NonDevice
-          title="Discharge"
-          icon="arrow-circle-down"
-          width={100}
-          height={50}
-          x={1200}
-          y={100}
-          shortKey="F2"
-        />
+        {NON_DEVICES.map(d => this.renderNonDevice(d))}
       </div>
     );
   }

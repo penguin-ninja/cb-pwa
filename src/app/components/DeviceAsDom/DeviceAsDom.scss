@@ -85,16 +85,6 @@ $tank: #f278cb;
     flex-direction: row;
   }
 
-  &__toggle {
-    @include level(2);
-
-    &--active {
-      margin-top: 1px;
-      margin-left: 1px;
-      @include level(0);
-    }
-  }
-
   .react-toggle-track-check {
     color: #fff;
     line-height: 23px;

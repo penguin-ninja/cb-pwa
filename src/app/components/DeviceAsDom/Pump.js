@@ -9,6 +9,7 @@ import {
 
 class Pump extends Component {
   render() {
+    const { device } = this.props;
     return (
       <div className="device-gui device-gui--pump">
         <div className="device-gui__row">
@@ -18,7 +19,7 @@ class Pump extends Component {
             <DisplayItem title="Meter Target">10</DisplayItem>
             <DisplayItem title="Balance">None</DisplayItem>
             <DisplayItem>
-              <PushButton bsStyle="info">On/Off</PushButton>
+              <PushButton port={device.gatePNo} />
             </DisplayItem>
           </Display>
           <VerticalProgress value={30} />

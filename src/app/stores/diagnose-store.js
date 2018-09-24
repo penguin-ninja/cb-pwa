@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx';
-import { POLLING_INTERVAL, OUTPUT_TTL } from 'app/constants/Pac';
+import { POLLING_DIAGNOSE_INTERVAL, OUTPUT_TTL } from 'app/constants/Pac';
 
 class DiagnoseStore {
   @observable
@@ -44,7 +44,10 @@ class DiagnoseStore {
   };
 
   startPollingStatus = () => {
-    this.getStatusInterval = setInterval(this.loadStatus, POLLING_INTERVAL);
+    this.getStatusInterval = setInterval(
+      this.loadStatus,
+      POLLING_DIAGNOSE_INTERVAL
+    );
   };
 
   stopPollingStatus = () => {
