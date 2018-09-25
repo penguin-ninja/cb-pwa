@@ -8,8 +8,8 @@ class Switch extends Component {
     return (
       <div className="device-gui device-gui--switch">
         <div className="device-gui__row">
-          <Toggle port={device.switchOnePNo} />
-          <Loader port={device.switchOnePNo} />
+          <Toggle port={device.switchOnPNo} />
+          <Loader port={device.switchOnPNo} />
         </div>
       </div>
     );

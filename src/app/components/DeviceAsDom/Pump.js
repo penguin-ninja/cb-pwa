@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
 import deviceDOMHoc from 'app/hocs/deviceDOMHoc';
 import {
   Display,
@@ -7,9 +8,11 @@ import {
   PushButton
 } from './components';
 
+@inject('batchStore')
+@observer
 class Pump extends Component {
   render() {
-    const { device } = this.props;
+    const { device, batchStore } = this.props;
     return (
       <div className="device-gui device-gui--pump">
         <div className="device-gui__row">
@@ -22,7 +25,10 @@ class Pump extends Component {
               <PushButton port={device.gatePNo} />
             </DisplayItem>
           </Display>
-          <VerticalProgress value={30} />
+          <VerticalProgress
+            active={batchStore.outputs[device.gatePNo - 1] === '1'}
+            value={50}
+          />
         </div>
       </div>
     );
