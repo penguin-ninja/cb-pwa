@@ -4,6 +4,7 @@ import DevicesStore from './devices-store';
 import DiagnoseStore from './diagnose-store';
 import BatchStore from './batch-store';
 import PacStore from './pac-store';
+import MaterialStore from './material-store';
 
 class RootStore {
   constructor() {
@@ -17,6 +18,7 @@ class RootStore {
     this.pacStore = new PacStore(this);
     this.diagnoseStore = new DiagnoseStore(this);
     this.batchStore = new BatchStore(this);
+    this.materialStore = new MaterialStore(this);
   }
 }
 
