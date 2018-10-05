@@ -1,0 +1,30 @@
+.batch-material-settings-modal {
+  .col-sm-6 {
+    margin-top: 10px;
+  }
+
+  .material-edit-actions {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+    margin-top: 20px;
+
+    .btn + .btn {
+      margin-left: 10px;
+    }
+  }
+
+  .btn-material-action {
+    margin-left: 30px;
+    position: absolute;
+    top: 25px;
+  }
+
+  .checkbox-inline {
+    display: block;
+    min-height: 34px;
+  }
+
+  .alert {
+    margin-top: 20px;
+  }
+}

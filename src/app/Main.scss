@@ -31,7 +31,14 @@
 @import 'partials/portlets';
 
 @import '~react-toggle/style.css';
+@import '~react-table/react-table.css';
+@import 'partials/table';
 
 select {
   -webkit-appearance: none;
+}
+
+// workaround to move tooltip over the modal
+.tooltip {
+  z-index: 11000 !important;
 }

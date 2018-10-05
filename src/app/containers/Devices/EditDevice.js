@@ -139,7 +139,13 @@ class EditDevice extends Component {
       default:
         const options = devicesStore[type] || DEFAULT_ENUM;
         return (
-          <FormControl name={name} componentClass="select" disabled={disabled}>
+          <FormControl
+            name={name}
+            value={value}
+            onChange={this.onChange(name)}
+            componentClass="select"
+            disabled={disabled}
+          >
             <option value="">- Select -</option>
             {options.map(option => (
               <option key={option.value} value={option.value}>

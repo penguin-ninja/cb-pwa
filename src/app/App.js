@@ -8,6 +8,7 @@ import PageLoading from './components/PageLoading/PageLoading';
 import Home from './containers/Home/Home';
 import Devices from './containers/Devices/Devices';
 import Diagnose from './containers/Diagnose/Diagnose';
+import Materials from './containers/Materials/Materials';
 
 @inject('authStore')
 @observer
@@ -31,6 +32,7 @@ class App extends Component {
         </div>
         <Diagnose />
         <Devices />
+        <Materials />
       </div>
     );
   }

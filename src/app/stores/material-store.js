@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 
 class MaterialStore {
   @observable
@@ -13,6 +13,26 @@ class MaterialStore {
   weightUnit = [];
   @observable
   meterUnit = [];
+  @observable
+  batchMode = [];
+
+  assignment = [
+    {
+      value: 'Weighed',
+      text: 'Weighed'
+    },
+    {
+      value: 'Metered',
+      text: 'Metered'
+    },
+    {
+      value: 'None',
+      text: 'Unassigned'
+    }
+  ];
+
+  @observable
+  materials = [];
 
   // modal
   @observable
@@ -26,6 +46,28 @@ class MaterialStore {
     return this.rootStore.authStore;
   }
 
+  get plantId() {
+    return this.rootStore.authStore.plantId;
+  }
+
+  getMaterialById = id => this.materials.find(m => m.id === id);
+
+  @action
+  loadMaterials() {
+    return this.api
+      .makeAuthorizedRequest(`/api/batch/Material/plant/${this.plantId}`)
+      .then(resp => {
+        this.materials = resp;
+      });
+  }
+
+  @action
+  loadMaterialDetail(materialId) {
+    return this.api.makeAuthorizedRequest(
+      `/api/batch/Material/plant/${this.plantId}/material/${materialId}`
+    );
+  }
+
   @action
   loadTypes() {
     return Promise.all([
@@ -33,6 +75,7 @@ class MaterialStore {
       this.loadType('startType'),
       this.loadType('weighedMaterialType'),
       this.loadType('meteredMaterialType'),
+      this.loadType('batchMode'),
       this.loadType('weightUnit', 'config/ConfigType'),
       this.loadType('meterUnit', 'config/ConfigType')
     ]);
@@ -41,9 +84,54 @@ class MaterialStore {
   @action
   loadType(type, path = 'batch/BatchType') {
     return this.api.makeAuthorizedRequest(`/api/${path}/${type}`).then(resp => {
-      this[type] = type;
+      this[type] = resp;
     });
   }
+
+  @action
+  assignMaterial = (materialId, assignment) => {
+    return this.api
+      .makeAuthorizedRequest(
+        `/api/batch/Material/plant/${
+          this.plantId
+        }/material/${materialId}/assignment/${assignment}`,
+        {},
+        'POST'
+      )
+      .then(() => {
+        this.onMaterialUpdate(materialId, {
+          assignment
+        });
+      });
+  };
+
+  @action
+  unassignMaterial = materialId => {
+    return this.api
+      .makeAuthorizedRequest(
+        `/plant/${this.plantId}/material/${materialId}`,
+        {},
+        'DELETE'
+      )
+      .then(() => {
+        this.onMaterialUpdate(materialId, {
+          assignment: 'None'
+        });
+      });
+  };
+
+  @action
+  saveMaterialDetail = (material, values) => {
+    const { id, assignment } = material;
+    const type =
+      assignment === 'Weighed' ? 'weighedMaterial' : 'meteredMaterial';
+
+    return this.api.makeAuthorizedRequest(
+      `/api/batch/Material/plant/${this.plantId}/${type}/${id}`,
+      values,
+      'PUT'
+    );
+  };
 
   @action
   onShowModal = () => {
@@ -54,6 +142,30 @@ class MaterialStore {
   onCloseModal = () => {
     this.isModalVisible = false;
   };
+
+  @action
+  onMaterialUpdate = (materialId, updatedData) => {
+    const material = this.getMaterialById(materialId);
+
+    if (material) {
+      Object.assign(material, updatedData);
+    }
+  };
+
+  @computed
+  get unassignedMaterials() {
+    return this.materials.filter(m => m.assignment === 'None');
+  }
+
+  @computed
+  get weighedMaterials() {
+    return this.materials.filter(m => m.assignment === 'Weighed');
+  }
+
+  @computed
+  get meteredMaterials() {
+    return this.materials.filter(m => m.assignment === 'Metered');
+  }
 }
 
 export default MaterialStore;
