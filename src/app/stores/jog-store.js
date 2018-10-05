@@ -84,7 +84,7 @@ class JogStore {
 
   @action
   changeJog = (id, fieldName, value) => {
-    this.jogTable[`${fieldName}id`] = value * 1;
+    this.jogTable[`${fieldName}${id}`] = value * 1;
   };
 
   @action

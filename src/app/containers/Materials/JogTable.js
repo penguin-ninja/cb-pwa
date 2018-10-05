@@ -50,13 +50,13 @@ class JogTable extends Component {
         suppressContentEditableWarning
         onBlur={e => {
           jogStore.changeJog(
-            cellInfo.value.id,
+            cellInfo.row.id,
             cellInfo.column.id,
             e.target.innerHTML
           );
         }}
       >
-        {cellInfo.value[cellInfo.column.id]}
+        {cellInfo.row[cellInfo.column.id]}
       </div>
     );
   };
@@ -73,12 +73,14 @@ class JogTable extends Component {
         headerText: 'Jog Open',
         accessor: 'open',
         id: 'open',
+        ...this.getSortHeaderProps(),
         Cell: this.renderEditable
       },
       {
         headerText: 'Jog Weight',
         accessor: 'weight',
         id: 'weight',
+        ...this.getSortHeaderProps(),
         Cell: this.renderEditable
       }
     ];
@@ -99,7 +101,7 @@ class JogTable extends Component {
     }
 
     return (
-      <Modal onHide={onCloseModal} className="batch-material-settings-modal">
+      <Modal show onHide={onCloseModal}>
         <Modal.Header closeButton>
           <Modal.Title>Jog Table</Modal.Title>
         </Modal.Header>
@@ -120,6 +122,7 @@ class JogTable extends Component {
               showPageSizeOptions={false}
               resizable={false}
               minRows={1}
+              defaultPageSize={50}
             />
           )}
         </Modal.Body>

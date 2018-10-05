@@ -49,14 +49,14 @@ class CutoffTable extends Component {
         contentEditable
         suppressContentEditableWarning
         onBlur={e => {
-          cutoffStore.changeJog(
-            cellInfo.value.id,
+          cutoffStore.changeCutoff(
+            cellInfo.row.id,
             cellInfo.column.id,
             e.target.innerHTML
           );
         }}
       >
-        {cellInfo.value[cellInfo.column.id]}
+        {cellInfo.row[cellInfo.column.id]}
       </div>
     );
   };
@@ -73,12 +73,14 @@ class CutoffTable extends Component {
         headerText: 'Drop Size',
         accessor: 'dropSize',
         id: 'dropSize',
+        ...this.getSortHeaderProps(),
         Cell: this.renderEditable
       },
       {
         headerText: 'Free Fall',
         accessor: 'freeFall',
         id: 'freeFall',
+        ...this.getSortHeaderProps(),
         Cell: this.renderEditable
       }
     ];
@@ -99,9 +101,9 @@ class CutoffTable extends Component {
     }
 
     return (
-      <Modal onHide={onCloseModal} className="batch-material-settings-modal">
+      <Modal show onHide={onCloseModal}>
         <Modal.Header closeButton>
-          <Modal.Title>Jog Table</Modal.Title>
+          <Modal.Title>Free Fall Table</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           {loading ? (

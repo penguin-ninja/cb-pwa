@@ -84,7 +84,7 @@ class CutoffStore {
 
   @action
   changeCutoff = (id, fieldName, value) => {
-    this.cutoffTable[`${fieldName}id`] = value * 1;
+    this.cutoffTable[`${fieldName}${id}`] = value * 1;
   };
 
   @action

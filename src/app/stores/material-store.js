@@ -109,7 +109,7 @@ class MaterialStore {
   unassignMaterial = materialId => {
     return this.api
       .makeAuthorizedRequest(
-        `/plant/${this.plantId}/material/${materialId}`,
+        `/api/batch/plant/${this.plantId}/material/${materialId}`,
         {},
         'DELETE'
       )
