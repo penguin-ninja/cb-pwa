@@ -34,9 +34,9 @@
 @import '~react-table/react-table.css';
 @import 'partials/table';
 
-select {
-  -webkit-appearance: none;
-}
+// select {
+//   -webkit-appearance: none;
+// }
 
 // workaround to move tooltip over the modal
 .tooltip {
@@ -46,7 +46,7 @@ select {
 body > div[role='dialog'],
 body > div[role='dialog']:not(.modal) {
   position: relative;
-  z-index: 10000;
+  z-index: 11000;
   height: 0;
   overflow: visible;
 }

@@ -12,3 +12,16 @@
     font-size: 18px;
   }
 }
+
+.page-quick-sidebar--materials {
+  .page-quick-sidebar-wrapper {
+    width: 800px;
+    right: -800px;
+  }
+
+  &.page-quick-sidebar-open {
+    .page-quick-sidebar-wrapper {
+      right: 0px;
+    }
+  }
+}

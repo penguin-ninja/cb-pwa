@@ -8,10 +8,10 @@ import Navbar from 'react-bootstrap/lib/Navbar';
 import LogoImg from 'img/logo.png';
 import './NavigationBar.css';
 
-@inject('sidebarStore', 'diagnoseStore', 'materialStore')
+@inject('sidebarStore', 'diagnoseStore')
 class NavigationBar extends Component {
   render() {
-    const { sidebarStore, diagnoseStore, materialStore } = this.props;
+    const { sidebarStore, diagnoseStore } = this.props;
 
     return (
       <Navbar fluid fixedTop className="page-header">
@@ -36,13 +36,19 @@ class NavigationBar extends Component {
               <i className="fa fa-clock-o" />
             </NavItem>
             <NavItem>
-              <i className="fa fa-cubes" onClick={materialStore.onShowModal} />
+              <i
+                className="fa fa-cubes"
+                onClick={() => sidebarStore.onToggle('materials')}
+              />
             </NavItem>
             <NavItem>
               <i className="fa fa-medkit" onClick={diagnoseStore.onShow} />
             </NavItem>
             <NavItem>
-              <i className="fa fa-cog" onClick={sidebarStore.onToggle} />
+              <i
+                className="fa fa-cog"
+                onClick={() => sidebarStore.onToggle('devices')}
+              />
             </NavItem>
           </Nav>
         </Navbar.Collapse>

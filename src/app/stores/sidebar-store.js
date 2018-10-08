@@ -1,16 +1,17 @@
 import { observable } from 'mobx';
 
 class SidebarStore {
-  @observable show = false;
+  @observable
+  type = null;
 
   constructor(rootStore) {
     this.rootStore = rootStore;
   }
 
   // actions
-  onToggle = () => {
-    this.show = !this.show;
-  }
+  onToggle = item => {
+    this.type = item;
+  };
 }
 
 export default SidebarStore;

@@ -7,10 +7,11 @@ import './SideBar.css';
 @observer
 class SideBar extends Component {
   render() {
-    const { children, className, sidebarStore } = this.props;
-    const { show } = sidebarStore;
+    const { children, className, sidebarStore, type: sidebarType } = this.props;
+    const { type } = sidebarStore;
     const CN = cx(className, {
-      'page-quick-sidebar-open': show
+      'page-quick-sidebar-open': type === sidebarType,
+      [`page-quick-sidebar--${sidebarType}`]: true
     });
 
     return (
@@ -19,7 +20,7 @@ class SideBar extends Component {
           <div className="page-quick-sidebar">
             <a
               className="page-quick-sidebar-toggler"
-              onClick={sidebarStore.onToggle}
+              onClick={() => sidebarStore.onToggle(null)}
             >
               <i className="icon-close" />
             </a>
