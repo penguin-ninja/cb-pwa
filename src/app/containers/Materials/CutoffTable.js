@@ -93,6 +93,8 @@ class CutoffTable extends Component {
       loading,
       saving,
       saveCutoff,
+      interpolate,
+      generate,
       onCloseModal
     } = this.props.cutoffStore;
 
@@ -126,6 +128,12 @@ class CutoffTable extends Component {
           )}
         </Modal.Body>
         <Modal.Footer>
+          <Button className="pull-left" bsStyle="info" onClick={interpolate}>
+            Interpolate
+          </Button>
+          <Button className="pull-left" bsStyle="info" onClick={generate}>
+            Seed
+          </Button>
           <Button onClick={onCloseModal}>Close</Button>
           &nbsp;&nbsp;
           <LoadingButton

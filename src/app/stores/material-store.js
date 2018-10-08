@@ -34,10 +34,6 @@ class MaterialStore {
   @observable
   materials = [];
 
-  // modal
-  @observable
-  isModalVisible = false;
-
   constructor(rootStore) {
     this.rootStore = rootStore;
   }
@@ -109,7 +105,7 @@ class MaterialStore {
   unassignMaterial = materialId => {
     return this.api
       .makeAuthorizedRequest(
-        `/api/batch/plant/${this.plantId}/material/${materialId}`,
+        `/api/batch/Material/plant/${this.plantId}/material/${materialId}`,
         {},
         'DELETE'
       )
@@ -131,16 +127,6 @@ class MaterialStore {
       values,
       'PUT'
     );
-  };
-
-  @action
-  onShowModal = () => {
-    this.isModalVisible = true;
-  };
-
-  @action
-  onCloseModal = () => {
-    this.isModalVisible = false;
   };
 
   @action

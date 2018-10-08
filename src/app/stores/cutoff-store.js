@@ -41,6 +41,10 @@ class CutoffStore {
     return arr;
   }
 
+  getValue = (id, field) => {
+    return this.cutoffTable[`${field}${id}`];
+  };
+
   @action
   reset() {
     this.loading = false;
@@ -80,6 +84,33 @@ class CutoffStore {
         this.saving = false;
         this.onCloseModal();
       });
+  };
+
+  generateInterpolation(start, end) {
+    const dropSizeDiff =
+      this.getValue(end, 'dropSize') - this.getValue(start, 'dropSize');
+    const freeFallDiff =
+      this.getValue(end, 'freeFall') - this.getValue(start, 'freeFall');
+
+    for (let i = start + 1; i < end; i += 1) {
+      const freeFall = (
+        (freeFallDiff / dropSizeDiff) *
+        this.getValue(i, 'dropSize')
+      ).toFixed(2);
+      this.changeCutoff(i, 'freeFall', freeFall);
+    }
+  }
+
+  @action
+  interpolate = () => {
+    this.generateInterpolation(1, 20);
+  };
+
+  @action
+  generate = () => {
+    for (let i = 1; i <= 20; i += 1) {
+      this.changeCutoff(i, 'dropSize', (1 * i).toFixed(2));
+    }
   };
 
   @action

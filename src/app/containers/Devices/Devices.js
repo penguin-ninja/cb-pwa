@@ -25,7 +25,7 @@ class Devices extends Component {
     } = this.props.devicesStore;
 
     return (
-      <SideBar>
+      <SideBar type="devices">
         <h3>
           <i className="fa fa-cog" /> Devices
         </h3>
