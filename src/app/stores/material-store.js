@@ -130,6 +130,22 @@ class MaterialStore {
   };
 
   @action
+  adjustQuantity = (materialId, payload) => {
+    return this.api
+      .makeAuthorizedRequest(
+        `/api/items/Inventory/plant/${
+          this.plantId
+        }/inventoryItem/${materialId}/adjust`,
+        payload,
+        'POST'
+      )
+      .then(data => {
+        this.onMaterialUpdate(materialId, data);
+        return data;
+      });
+  };
+
+  @action
   onMaterialUpdate = (materialId, updatedData) => {
     const material = this.getMaterialById(materialId);
 
