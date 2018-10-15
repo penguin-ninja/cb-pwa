@@ -7,6 +7,9 @@ import MaterialTable from './MaterialTable';
 import JogTable from './JogTable';
 import CutoffTable from './CutoffTable';
 import BatchMaterialSettingsModal from './BatchMaterialSettings';
+import InventoryAdjustModal from './InventoryAdjust';
+import DeliveryOptionsModal from './DeliveryOptions';
+import ShipInModal from './ShipInModal';
 
 @inject('materialStore')
 @observer
@@ -14,7 +17,8 @@ class Materials extends Component {
   constructor() {
     super();
     this.state = {
-      editingMaterial: null
+      editingMaterial: null,
+      adjustingMaterialId: null
     };
   }
 
@@ -33,13 +37,21 @@ class Materials extends Component {
     this.setState({ editingMaterial: null });
   };
 
+  onAdjustMaterial = adjustingMaterialId => {
+    this.setState({ adjustingMaterialId });
+  };
+
+  onCloseAdjust = () => {
+    this.setState({ adjustingMaterialId: null });
+  };
+
   render() {
     const {
       unassignedMaterials,
       weighedMaterials,
       meteredMaterials
     } = this.props.materialStore;
-    const { editingMaterial } = this.state;
+    const { editingMaterial, adjustingMaterialId } = this.state;
 
     return (
       <SideBar type="materials">
@@ -52,6 +64,7 @@ class Materials extends Component {
               items={weighedMaterials}
               type="weighed"
               onEditMaterial={this.onEditMaterial}
+              onAdjustMaterial={this.onAdjustMaterial}
             />
           </Tab>
           <Tab eventKey={2} title="Metered">
@@ -59,6 +72,7 @@ class Materials extends Component {
               items={meteredMaterials}
               type="metered"
               onEditMaterial={this.onEditMaterial}
+              onAdjustMaterial={this.onAdjustMaterial}
             />
           </Tab>
           <Tab eventKey={3} title="Unassigned">
@@ -66,6 +80,7 @@ class Materials extends Component {
               items={unassignedMaterials}
               type="unassigned"
               onEditMaterial={this.onEditMaterial}
+              onAdjustMaterial={this.onAdjustMaterial}
             />
           </Tab>
         </Tabs>
@@ -77,6 +92,12 @@ class Materials extends Component {
         )}
         <JogTable />
         <CutoffTable />
+        <DeliveryOptionsModal />
+        <ShipInModal />
+        <InventoryAdjustModal
+          materialId={adjustingMaterialId}
+          onCloseModal={this.onCloseAdjust}
+        />
       </SideBar>
     );
   }

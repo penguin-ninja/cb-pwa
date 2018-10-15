@@ -65,7 +65,7 @@ const COLUMN_MAP = {
   unassigned: []
 };
 
-@inject('materialStore')
+@inject('materialStore', 'shipHistoryStore')
 class MaterialTable extends Component {
   constructor() {
     super();
@@ -147,7 +147,12 @@ class MaterialTable extends Component {
           placement="bottom"
           overlay={<Tooltip id="edit">Delivery Options</Tooltip>}
         >
-          <a className="material-action" onClick={() => undefined}>
+          <a
+            className="material-action"
+            onClick={() =>
+              this.props.shipHistoryStore.onShowModal(row.value.id)
+            }
+          >
             <i className="fa fa-fw fa-truck" />
           </a>
         </OverlayTrigger>,
@@ -156,7 +161,10 @@ class MaterialTable extends Component {
           placement="bottom"
           overlay={<Tooltip id="edit">Inventory Adjustment</Tooltip>}
         >
-          <a className="material-action" onClick={() => undefined}>
+          <a
+            className="material-action"
+            onClick={() => this.props.onAdjustMaterial(row.value.id)}
+          >
             <i className="fa fa-fw fa-sliders" />
           </a>
         </OverlayTrigger>

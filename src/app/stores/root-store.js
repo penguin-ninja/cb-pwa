@@ -7,6 +7,7 @@ import PacStore from './pac-store';
 import MaterialStore from './material-store';
 import JogStore from './jog-store';
 import CutoffStore from './cutoff-store';
+import ShipHistoryStore from './ship-history-store';
 
 class RootStore {
   constructor() {
@@ -23,6 +24,7 @@ class RootStore {
     this.materialStore = new MaterialStore(this);
     this.jogStore = new JogStore(this);
     this.cutoffStore = new CutoffStore(this);
+    this.shipHistoryStore = new ShipHistoryStore(this);
   }
 }
 
