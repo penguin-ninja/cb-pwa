@@ -185,7 +185,7 @@ class DeliveryOptions extends Component {
           ) : (
             <ReactTable
               className="-highlight"
-              data={historyItems}
+              data={historyItems.toJS()}
               columns={this.getColumns()}
               sorted={this.state.sorted}
               onSortedChange={sorted => this.setState({ sorted })}

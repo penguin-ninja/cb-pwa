@@ -46,12 +46,13 @@ class InventoryAdjust extends Component {
   onAdjust = () => {
     const { materialId, materialStore } = this.props;
     const { adjustedQuantity, reason, comment } = this.state;
+    const { currentBalance } = materialStore.getMaterialById(materialId);
 
     this.setState({ saving: true });
 
     materialStore
       .adjustQuantity(materialId, {
-        quantity: adjustedQuantity,
+        quantity: adjustedQuantity - currentBalance, // sends over only added up amount
         reason,
         comment
       })

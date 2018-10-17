@@ -73,9 +73,9 @@ class ShipHistoryStore {
         payload,
         'POST'
       )
-      .then(resp => {
+      .then(() => {
         this.saving = false;
-        this.historyItems.push(resp);
+        return this.loadHistory();
       });
   };
 

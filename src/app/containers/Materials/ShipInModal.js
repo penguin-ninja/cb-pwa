@@ -52,7 +52,8 @@ class InventoryAdjust extends Component {
 
   onShipIn = () => {
     // @TODO supplier, truck, hauler, ticket
-    const { materialId, shipHistoryStore } = this.props;
+    const { shipHistoryStore } = this.props;
+    const { materialId } = shipHistoryStore;
     const { quantity, deliveryTime, comment } = this.state;
 
     this.setState({ saving: true });
