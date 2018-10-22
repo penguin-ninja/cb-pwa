@@ -8,6 +8,7 @@ import MaterialStore from './material-store';
 import JogStore from './jog-store';
 import CutoffStore from './cutoff-store';
 import ShipHistoryStore from './ship-history-store';
+import ScheduleStore from './schedule-store';
 
 class RootStore {
   constructor() {
@@ -25,6 +26,7 @@ class RootStore {
     this.jogStore = new JogStore(this);
     this.cutoffStore = new CutoffStore(this);
     this.shipHistoryStore = new ShipHistoryStore(this);
+    this.scheduleStore = new ScheduleStore(this);
   }
 }
 

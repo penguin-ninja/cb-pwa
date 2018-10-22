@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Nav from 'react-bootstrap/lib/Nav';
 import NavItem from 'react-bootstrap/lib/NavItem';
 import Navbar from 'react-bootstrap/lib/Navbar';
+import { LinkContainer } from 'react-router-bootstrap';
 
 import LogoImg from 'img/logo.png';
 import './NavigationBar.css';
@@ -32,9 +33,11 @@ class NavigationBar extends Component {
             <NavItem>Config</NavItem>
           </Nav>
           <Nav pullRight>
-            <NavItem>
-              <i className="fa fa-clock-o" />
-            </NavItem>
+            <LinkContainer to="/schedules">
+              <NavItem>
+                <i className="fa fa-clock-o" />
+              </NavItem>
+            </LinkContainer>
             <NavItem>
               <i
                 className="fa fa-cubes"
