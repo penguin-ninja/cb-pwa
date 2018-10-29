@@ -10,7 +10,7 @@ const WEIGHED_COLUMNS = [
     headerText: 'Bin ID',
     accessor: 'binId',
     id: 'binId',
-    maxWidth: 80
+    maxWidth: 120
   },
   {
     headerText: 'Current Balance',
@@ -37,7 +37,7 @@ const METERED_COLUMNS = [
     headerText: 'Pump ID',
     accessor: 'pumpId',
     id: 'pumpId',
-    maxWidth: 80
+    maxWidth: 120
   },
   {
     headerText: 'Current Balance',

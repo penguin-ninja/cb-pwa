@@ -33,17 +33,21 @@ class NavigationBar extends Component {
             <NavItem>Config</NavItem>
           </Nav>
           <Nav pullRight>
+            <LinkContainer exact to="/">
+              <NavItem>
+                <i className="fa fa-dashboard" />
+              </NavItem>
+            </LinkContainer>
             <LinkContainer to="/schedules">
               <NavItem>
                 <i className="fa fa-clock-o" />
               </NavItem>
             </LinkContainer>
-            <NavItem>
-              <i
-                className="fa fa-cubes"
-                onClick={() => sidebarStore.onToggle('materials')}
-              />
-            </NavItem>
+            <LinkContainer to="/materials">
+              <NavItem>
+                <i className="fa fa-cubes" />
+              </NavItem>
+            </LinkContainer>
             <NavItem>
               <i className="fa fa-medkit" onClick={diagnoseStore.onShow} />
             </NavItem>

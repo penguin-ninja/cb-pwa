@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
+import { LinkContainer } from 'react-router-bootstrap';
 import Tabs from 'react-bootstrap/lib/Tabs';
 import Tab from 'react-bootstrap/lib/Tab';
-import SideBar from 'app/components/SideBar/SideBar';
+import Breadcrumb from 'react-bootstrap/lib/Breadcrumb';
 import MaterialTable from './MaterialTable';
 import JogTable from './JogTable';
 import CutoffTable from './CutoffTable';
@@ -54,10 +55,16 @@ class Materials extends Component {
     const { editingMaterial, adjustingMaterialId } = this.state;
 
     return (
-      <SideBar type="materials">
-        <h3>
-          <i className="fa fa-cubes" /> Materials
-        </h3>
+      <div className="page-content">
+        <div className="page-bar">
+          <Breadcrumb className="page-breadcrumb">
+            <LinkContainer to="/">
+              <Breadcrumb.Item>Home</Breadcrumb.Item>
+            </LinkContainer>
+            <Breadcrumb.Item active>Materials</Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
+        <h1 className="page-title">Materials</h1>
         <Tabs defaultActiveKey={1} id="materials">
           <Tab eventKey={1} title="Weighed">
             <MaterialTable
@@ -98,7 +105,7 @@ class Materials extends Component {
           materialId={adjustingMaterialId}
           onCloseModal={this.onCloseAdjust}
         />
-      </SideBar>
+      </div>
     );
   }
 }
