@@ -53,12 +53,6 @@ class ScheduleTable extends Component {
         ...this.getSortHeaderProps()
       },
       {
-        headerText: 'Ship Time',
-        accessor: 'ship_time',
-        id: 'ship_time',
-        ...this.getSortHeaderProps()
-      },
-      {
         headerText: 'YDS',
         accessor: 'yds',
         id: 'yds',

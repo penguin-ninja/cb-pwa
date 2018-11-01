@@ -8,6 +8,9 @@ class ScheduleStore {
   @observable
   saving = false;
 
+  @observable
+  editingScheduleId = null;
+
   constructor(rootStore) {
     this.rootStore = rootStore;
   }
@@ -19,6 +22,18 @@ class ScheduleStore {
   get plantId() {
     return this.rootStore.authStore.plantId;
   }
+
+  getScheduleById = id => this.schedules.find(s => s.id === id);
+
+  @action
+  onEdit = scheduleId => {
+    this.editingScheduleId = scheduleId;
+  };
+
+  @action
+  onClose = () => {
+    this.editingScheduleId = null;
+  };
 }
 
 export default ScheduleStore;
