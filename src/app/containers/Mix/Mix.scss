@@ -1,0 +1,24 @@
+.mix-checkbox {
+  .checkbox {
+    margin: 0;
+  }
+
+  .checkbox input[type='checkbox'] {
+    margin-top: 7px;
+    margin-left: 0;
+  }
+}
+
+.mix-button-container {
+  margin-top: 10px;
+
+  .btn + .btn {
+    margin-left: 10px;
+  }
+}
+
+.mix-row {
+  &--selected {
+    background-color: #5c9bd155 !important;
+  }
+}

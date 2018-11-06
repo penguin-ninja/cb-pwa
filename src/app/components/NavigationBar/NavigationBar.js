@@ -38,6 +38,11 @@ class NavigationBar extends Component {
                 <i className="fa fa-dashboard" />
               </NavItem>
             </LinkContainer>
+            <LinkContainer to="/mixes">
+              <NavItem>
+                <i className="fa fa-cogs" />
+              </NavItem>
+            </LinkContainer>
             <LinkContainer to="/schedules">
               <NavItem>
                 <i className="fa fa-clock-o" />

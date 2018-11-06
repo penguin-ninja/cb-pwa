@@ -9,6 +9,7 @@ import JogStore from './jog-store';
 import CutoffStore from './cutoff-store';
 import ShipHistoryStore from './ship-history-store';
 import ScheduleStore from './schedule-store';
+import MixStore from './mix-store';
 
 class RootStore {
   constructor() {
@@ -27,6 +28,7 @@ class RootStore {
     this.cutoffStore = new CutoffStore(this);
     this.shipHistoryStore = new ShipHistoryStore(this);
     this.scheduleStore = new ScheduleStore(this);
+    this.mixStore = new MixStore(this);
   }
 }
 

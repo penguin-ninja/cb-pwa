@@ -10,6 +10,7 @@ import Schedules from './containers/Schedules/Schedules';
 import Devices from './containers/Devices/Devices';
 import Diagnose from './containers/Diagnose/Diagnose';
 import Materials from './containers/Materials/Materials';
+import Mix from './containers/Mix/Mix';
 
 @inject('authStore')
 @observer
@@ -30,6 +31,7 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route exact path="/schedules" component={Schedules} />
               <Route exact path="/materials" component={Materials} />
+              <Route exact path="/mixes" component={Mix} />
             </Switch>
           </div>
         </div>
