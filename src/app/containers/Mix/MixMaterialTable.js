@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
 import ReactTable from 'react-table';
 
-@inject('mixStore')
+@inject('mixStore', 'materialStore')
 @observer
 class MixMaterialTable extends Component {
   constructor() {
@@ -40,7 +40,6 @@ class MixMaterialTable extends Component {
 
   renderEditable = cellInfo => {
     const { mixStore } = this.props;
-    console.log(cellInfo.row);
     return (
       <div
         style={{ backgroundColor: '#fafafa' }}
@@ -63,48 +62,66 @@ class MixMaterialTable extends Component {
     return [
       {
         headerText: 'Material',
-        accessor: 'name',
+        accessor: d => d,
         id: 'name',
-        ...this.getSortHeaderProps(),
-        Cell: this.renderEditable
+        Cell: row => {
+          const material = this.props.materialStore.getMaterialById(
+            row.value.materialId
+          );
+          return material && material.name;
+        },
+        ...this.getSortHeaderProps()
       },
       {
         headerText: 'Amount',
         accessor: 'amount',
         id: 'amount',
-        ...this.getSortHeaderProps(),
-        Cell: this.renderEditable
+        ...this.getSortHeaderProps()
       },
       {
         headerText: 'By%',
-        accessor: 'byPercent',
+        accessor: d => d,
         id: 'byPercent',
-        ...this.getSortHeaderProps(),
-        Cell: this.renderEditable
+        Cell: row => {
+          const material = this.props.materialStore.getMaterialById(
+            row.value.materialId
+          );
+          const detail = this.props.materialStore.materialDetails[
+            row.value.materialId
+          ];
+
+          if (material && material.assignment === 'Metered') {
+            return detail && detail.percentInMixDesign ? 'Y' : 'N';
+          }
+
+          return '';
+        },
+        ...this.getSortHeaderProps()
       },
       {
         headerText: 'Unit',
-        accessor: 'unit',
+        accessor: d => d,
         id: 'unit',
         ...this.getSortHeaderProps(),
-        Cell: this.renderEditable
+        Cell: row => {
+          return this.props.materialStore.getMaterialUnit(row.value.materialId);
+        }
       },
       {
         headerText: 'Alias',
         accessor: 'alias',
         id: 'alias',
-        ...this.getSortHeaderProps(),
-        Cell: this.renderEditable
+        ...this.getSortHeaderProps()
       }
     ];
   };
 
   render() {
-    const { mixMaterials } = this.props.mixStore;
+    const { getCurrentMixMaterials } = this.props.mixStore;
     return (
       <ReactTable
         className="-highlight"
-        data={mixMaterials.toJS()}
+        data={getCurrentMixMaterials()}
         columns={this.getColumns()}
         sorted={this.state.sorted}
         onSortedChange={sorted => this.setState({ sorted })}

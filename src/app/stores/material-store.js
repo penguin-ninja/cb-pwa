@@ -1,4 +1,5 @@
 import { observable, action, computed } from 'mobx';
+import get from 'lodash/get';
 
 class MaterialStore {
   @observable
@@ -15,6 +16,8 @@ class MaterialStore {
   meterUnit = [];
   @observable
   batchMode = [];
+  @observable
+  materialDetails = {};
 
   assignment = [
     {
@@ -46,7 +49,24 @@ class MaterialStore {
     return this.rootStore.authStore.plantId;
   }
 
-  getMaterialById = id => this.materials.find(m => m.id === id);
+  getMaterialById = id => this.materials.find(m => Number(m.id) === Number(id));
+
+  getMaterialUnit = id => {
+    const material = this.getMaterialById(id);
+    const unitId = get(this.materialDetails, `${id}.inventoryUnitId`);
+
+    if (!material || material.assignment === 'None') {
+      return '';
+    }
+
+    if (material.assignment === 'Metered') {
+      const unit = this.meterUnit.find(u => u.id === unitId);
+      return unit && unit.name;
+    } else if (material.assignment === 'Weighed') {
+      const unit = this.weighUnit.find(u => u.id === unitId);
+      return unit && unit.name;
+    }
+  };
 
   @action
   loadMaterials() {
@@ -54,14 +74,25 @@ class MaterialStore {
       .makeAuthorizedRequest(`/api/batch/Material/plant/${this.plantId}`)
       .then(resp => {
         this.materials = resp;
+
+        this.materials.forEach(m => {
+          if (m.assignment !== 'None') {
+            this.loadMaterialDetail(m.id);
+          }
+        });
       });
   }
 
   @action
   loadMaterialDetail(materialId) {
-    return this.api.makeAuthorizedRequest(
-      `/api/batch/Material/plant/${this.plantId}/material/${materialId}`
-    );
+    return this.api
+      .makeAuthorizedRequest(
+        `/api/batch/Material/plant/${this.plantId}/material/${materialId}`
+      )
+      .then(detail => {
+        this.materialDetails[materialId] = detail;
+        return detail;
+      });
   }
 
   @action

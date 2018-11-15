@@ -15,7 +15,7 @@ class MixRow extends Component {
       <div
         className={cn}
         role="row"
-        onClick={() => mixStore.toggleCheck(rowId)}
+        onClick={() => mixStore.selectMix(rowId)}
         {...rest}
       >
         {children}

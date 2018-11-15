@@ -15,6 +15,8 @@ class MixTable extends Component {
   }
 
   getTrProps = (state, rowInfo) => {
+    if (!rowInfo) return {};
+
     const id = rowInfo.row._original.id;
 
     return {

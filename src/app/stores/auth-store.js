@@ -28,6 +28,11 @@ class AuthStore {
       .then(() => this.fetchUserId())
       .then(() => {
         this.isLoaded = true;
+      })
+      .catch(err => {
+        console.error(err);
+        // even if login fails, just set loaded as true for offline mode
+        this.isLoaded = true;
       });
     // this.refresh();
   }

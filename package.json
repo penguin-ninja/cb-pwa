@@ -29,6 +29,7 @@
     "react-spinners": "^0.4.5",
     "react-table": "^6.8.6",
     "react-toggle": "^4.0.2",
+    "shortid": "^2.2.14",
     "whatwg-fetch": "^2.0.4"
   },
   "scripts": {

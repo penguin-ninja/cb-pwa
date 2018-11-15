@@ -12,8 +12,8 @@
 .mix-button-container {
   margin-top: 10px;
 
-  .btn + .btn {
-    margin-left: 10px;
+  .btn {
+    margin-right: 10px;
   }
 }
 
@@ -21,4 +21,8 @@
   &--selected {
     background-color: #5c9bd155 !important;
   }
+}
+
+.mix-material-delete-btn {
+  margin-top: 25px;
 }

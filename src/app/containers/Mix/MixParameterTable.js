@@ -40,16 +40,15 @@ class MixMaterialTable extends Component {
 
   renderEditable = cellInfo => {
     const { mixStore } = this.props;
-    console.log(cellInfo.row);
     return (
       <div
         style={{ backgroundColor: '#fafafa' }}
         contentEditable
         suppressContentEditableWarning
         onBlur={e => {
-          mixStore.changeMix(
+          mixStore.changeParameter(
+            cellInfo.row._original.mixId,
             cellInfo.row._original.id,
-            cellInfo.column.id,
             e.target.innerHTML
           );
         }}
@@ -63,10 +62,9 @@ class MixMaterialTable extends Component {
     return [
       {
         headerText: 'Parameter',
-        accessor: 'parameter',
-        id: 'parameter',
-        ...this.getSortHeaderProps(),
-        Cell: this.renderEditable
+        accessor: 'name',
+        id: 'name',
+        ...this.getSortHeaderProps()
       },
       {
         headerText: 'Value',
@@ -79,11 +77,11 @@ class MixMaterialTable extends Component {
   };
 
   render() {
-    const { mixParameters } = this.props.mixStore;
+    const { getCurrentMixParameters } = this.props.mixStore;
     return (
       <ReactTable
         className="-highlight"
-        data={mixParameters.toJS()}
+        data={getCurrentMixParameters()}
         columns={this.getColumns()}
         sorted={this.state.sorted}
         onSortedChange={sorted => this.setState({ sorted })}

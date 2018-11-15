@@ -10,8 +10,11 @@ class MixCheckbox extends Component {
     const checked = mixStore.checked.get(id);
 
     return (
-      <div className="mix-checkbox">
-        <Checkbox checked={!!checked} onChange={() => {}} />
+      <div className="mix-checkbox" onClick={e => e.stopPropagation()}>
+        <Checkbox
+          checked={!!checked}
+          onChange={() => mixStore.toggleCheck(id)}
+        />
       </div>
     );
   }
