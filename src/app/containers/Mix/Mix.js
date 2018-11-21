@@ -146,7 +146,12 @@ class Mix extends Component {
                 >
                   Uncheck All
                 </Button>
-                <Button bsSize="sm" bsStyle="primary" disabled={!checkedSize}>
+                <Button
+                  bsSize="sm"
+                  bsStyle="primary"
+                  disabled={!checkedSize}
+                  onClick={mixStore.print}
+                >
                   Print
                 </Button>
               </Col>

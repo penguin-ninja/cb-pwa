@@ -106,7 +106,7 @@ class MixTable extends Component {
     const { mixes } = this.props.mixStore;
     return (
       <ReactTable
-        className="-highlight"
+        className="-highlight mix-table"
         data={mixes.toJS()}
         TrComponent={MixRow}
         getTrProps={this.getTrProps}

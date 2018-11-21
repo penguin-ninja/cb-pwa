@@ -10,7 +10,7 @@
 }
 
 .mix-button-container {
-  margin-top: 10px;
+  margin: 10px 0;
 
   .btn {
     margin-right: 10px;
@@ -25,4 +25,9 @@
 
 .mix-material-delete-btn {
   margin-top: 25px;
+}
+
+.mix-table {
+  overflow: auto;
+  max-height: 400px;
 }

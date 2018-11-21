@@ -11,9 +11,7 @@ class MaterialStore {
   @observable
   meteredMaterialType = [];
   @observable
-  weightUnit = [];
-  @observable
-  meterUnit = [];
+  unit = [];
   @observable
   batchMode = [];
   @observable
@@ -47,6 +45,16 @@ class MaterialStore {
 
   get plantId() {
     return this.rootStore.authStore.plantId;
+  }
+
+  @computed
+  get weighUnit() {
+    return this.unit.filter(u => u);
+  }
+
+  @computed
+  get meterUnit() {
+    return this.unit.filter(u => u);
   }
 
   getMaterialById = id => this.materials.find(m => Number(m.id) === Number(id));
@@ -103,8 +111,7 @@ class MaterialStore {
       this.loadType('weighedMaterialType'),
       this.loadType('meteredMaterialType'),
       this.loadType('batchMode'),
-      this.loadType('weightUnit', 'config/ConfigType'),
-      this.loadType('meterUnit', 'config/ConfigType')
+      this.loadType('unit', 'config/ConfigType')
     ]);
   }
 
