@@ -71,7 +71,7 @@ class ShipHistoryStore {
           this.plantId
         }/inventoryItem/${materialId}/shipIn`,
         payload,
-        'POST'
+        'PUT'
       )
       .then(() => {
         this.saving = false;

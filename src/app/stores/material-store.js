@@ -175,7 +175,7 @@ class MaterialStore {
           this.plantId
         }/inventoryItem/${materialId}/adjust`,
         payload,
-        'POST'
+        'PUT'
       )
       .then(data => {
         this.onMaterialUpdate(materialId, data);
