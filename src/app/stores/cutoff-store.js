@@ -87,23 +87,32 @@ class CutoffStore {
   };
 
   generateInterpolation(start, end) {
-    const dropSizeDiff =
-      this.getValue(end, 'dropSize') - this.getValue(start, 'dropSize');
+    const countDiff = end - start;
     const freeFallDiff =
       this.getValue(end, 'freeFall') - this.getValue(start, 'freeFall');
+    const diff = Math.ceil(freeFallDiff / countDiff);
+    const startFreeFall = this.getValue(start, 'freeFall');
 
     for (let i = start + 1; i < end; i += 1) {
-      const freeFall = (
-        (freeFallDiff / dropSizeDiff) *
-        this.getValue(i, 'dropSize')
-      ).toFixed(2);
+      const freeFall = (startFreeFall + diff * (i - start)).toFixed(2);
       this.changeCutoff(i, 'freeFall', freeFall);
     }
   }
 
   @action
   interpolate = () => {
-    this.generateInterpolation(1, 20);
+    let startId = 1;
+
+    for (let i = 2; i <= 20; i += 1) {
+      const freeFall = this.getValue(i, 'freeFall');
+
+      if (freeFall > 0) {
+        if (i - startId > 1) {
+          this.generateInterpolation(startId, i);
+        }
+        startId = i;
+      }
+    }
   };
 
   @action

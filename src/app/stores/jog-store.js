@@ -92,34 +92,32 @@ class JogStore {
   };
 
   generateInterpolation(start, end) {
-    const openDiff = this.getValue(end, 'open') - this.getValue(start, 'open');
+    const countDiff = end - start;
     const weightDiff =
       this.getValue(end, 'weight') - this.getValue(start, 'weight');
+    const diff = Math.ceil(weightDiff / countDiff);
+    const startWeight = this.getValue(start, 'weight');
 
     for (let i = start + 1; i < end; i += 1) {
-      const weight = (
-        (weightDiff / openDiff) *
-        this.getValue(i, 'open')
-      ).toFixed(2);
+      const weight = (startWeight + diff * (i - start)).toFixed(2);
       this.changeJog(i, 'weight', weight);
     }
   }
 
   @action
   interpolate = () => {
-    this.generateInterpolation(1, 50);
-    // let startId = 1;
-    // let startWeight = this.getValue(1, 'weight');
+    let startId = 1;
 
-    // for (let i = 2; i <= 50; i += 1) {
-    //   const weight = this.getValue(i, 'weight');
+    for (let i = 2; i <= 50; i += 1) {
+      const weight = this.getValue(i, 'weight');
 
-    //   if (weight <= startWeight || i === 50) {
-    //     this.generateInterpolation(startId, i);
-    //     startId = i;
-    //     startWeight = weight;
-    //   }
-    // }
+      if (weight > 0) {
+        if (i - startId > 1) {
+          this.generateInterpolation(startId, i);
+        }
+        startId = i;
+      }
+    }
   };
 
   @action
