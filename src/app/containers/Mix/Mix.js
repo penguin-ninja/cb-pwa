@@ -36,9 +36,14 @@ class Mix extends Component {
   }
 
   componentDidMount() {
+    this.props.mixStore.startSync();
     this.props.mixStore.load();
     this.props.materialStore.loadTypes();
     this.props.materialStore.loadMaterials();
+  }
+
+  componentWillUnmount() {
+    this.props.mixStore.stopSync();
   }
 
   onDelete = () => {

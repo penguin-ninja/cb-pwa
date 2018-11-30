@@ -43,8 +43,12 @@ class MixStore {
 
   getCurrentMixParameters = () => {
     if (this.selectedId) {
+      const params = this.mixParameters.find(m => m.mixId === this.selectedId);
       return computed(() =>
-        this.mixParameters.filter(m => m.mixId === this.selectedId)
+        MIX_PARAMETERS.map(p => ({
+          ...p,
+          value: params[p.id]
+        }))
       ).get();
     }
 
@@ -74,10 +78,9 @@ class MixStore {
 
   @action
   changeParameter = (mixId, id, value) => {
-    const param = this.mixParameters.find(
-      s => s.id === id && s.mixId === mixId
-    );
-    param.value = value;
+    const param = this.mixParameters.find(s => s.mixId === mixId);
+
+    param[id] = value;
     this.debouncedSaveOffline();
   };
 
@@ -89,7 +92,10 @@ class MixStore {
       code: '',
       description: ''
     });
-    this.mixParameters.push(...this.generateMixParams(id));
+    this.mixParameters.push({
+      ...this.generateMixParams(id),
+      mixId: id
+    });
     this.debouncedSaveOffline();
   };
 
@@ -121,11 +127,9 @@ class MixStore {
           mixId: newId
         });
       });
-      parameters.forEach(m => {
-        this.mixParameters.push({
-          ...m,
-          mixId: newId
-        });
+      this.mixParameters.push({
+        ...parameters,
+        mixId: newId
       });
     });
   };
@@ -192,6 +196,24 @@ class MixStore {
   };
 
   @action
+  adjustMixPrice = items => {
+    items.forEach(item => {
+      const mixParam = this.mixParameters.find(m => m.mixId === item.mixId);
+
+      if (mixParam) {
+        if (item.byPercent) {
+          mixParam.localPrice =
+            Number(mixParam.localPrice) +
+            Math.round((mixParam.localPrice * item.amount) / 100);
+        } else {
+          mixParam.localPrice =
+            Number(mixParam.localPrice) + Number(item.amount);
+        }
+      }
+    });
+  };
+
+  @action
   removeMaterials = items => {
     this.checkedIDs.forEach(id => {
       items.forEach(item => {
@@ -204,11 +226,48 @@ class MixStore {
   };
 
   @action
-  print = () => {};
+  print = () => {
+    const mixes = this.mixes
+      .filter(m => this.checked.get(m.id))
+      .map(m => `<tr><td>${m.code}</td><td>${m.description}</td><tr>`)
+      .join('');
+    const html = `
+      <html>
+      <head>
+        <style>
+        table {
+          border-collapse: collapse;
+        }
+        th, td {
+          padding: 5px 10px;
+        }
+        
+        table, th, td {
+          border: 1px solid black;
+        }
+        </style>
+      </head>
+      <body>
+        <h1>Mix Designs</h1>
+        <table>
+          <thead>
+            <tr><th>Code</th><th>Description</th></tr>
+          </thead>
+          <tbody>
+          ${mixes}
+          </tbody>
+        </table>
+      </body>
+      </html>
+    `;
+    const newWindow = window.open('about:blank');
+    newWindow.document.write(html);
+    newWindow.print();
+  };
 
-  /////////////////////
-  // OFFLINE RELATED //
-  /////////////////////
+  ////////////////////
+  // ONLine RELATED //
+  ////////////////////
 
   @action
   startSync = () => {
@@ -219,6 +278,47 @@ class MixStore {
   stopSync = () => {
     clearInterval(this.syncTimer);
   };
+
+  @action
+  sync = () => {
+    // @TODO sync data with online
+    if (this.isDirty) {
+      // @TODO push data to cloud
+    } else {
+      this.loadOnline();
+    }
+  };
+
+  @action
+  loadOnline = () => {
+    return Promise.all([this.loadMixDesigns(), this.loadMixParameters()]);
+  };
+
+  @action
+  loadMixDesigns = () => {
+    return this.api
+      .makeAuthorizedRequest(
+        `/api/items/BatchMix/plant/${this.plantId}/mixDesign`
+      )
+      .then(resp => {
+        this.mixDesigns = resp;
+      });
+  };
+
+  @action
+  loadMixParameters = () => {
+    return this.api
+      .makeAuthorizedRequest(
+        `/api/items/BatchMix/plant/${this.plantId}/mixParameters`
+      )
+      .then(resp => {
+        this.mixParameters = resp;
+      });
+  };
+
+  /////////////////////
+  // OFFLINE RELATED //
+  /////////////////////
 
   @action
   saveOffline = () => {
@@ -233,16 +333,6 @@ class MixStore {
   };
 
   @action
-  sync = () => {
-    // @TODO sync data with online
-    if (this.isDirty) {
-      // @TODO push data to cloud
-    } else {
-      // @TODO load data from cloud
-    }
-  };
-
-  @action
   load = () => {
     // @TODO load data initially from remote
     this.mixes = storage.getItem('mixes') || [];
@@ -250,14 +340,18 @@ class MixStore {
     this.isSynced = storage.getItem('mixSynced') || false;
     this.mixMaterials = storage.getItem('mixMaterials') || [];
     this.mixParameters = storage.getItem('mixParameters') || [];
+
+    this.sync();
   };
 
   generateMixParams(mixId) {
-    return MIX_PARAMETERS.map(p => ({
-      ...p,
-      mixId,
-      value: p.defaultValue
-    }));
+    const params = {};
+
+    MIX_PARAMETERS.forEach(p => {
+      params[p.id] = p.defaultValue;
+    });
+
+    return params;
   }
 
   ////////////////////
