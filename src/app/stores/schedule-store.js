@@ -1,8 +1,9 @@
 import { observable, action, computed } from 'mobx';
+import moment from 'moment';
 
 class ScheduleStore {
   @observable
-  schedules = [];
+  schedules = ['', '', ''];
   @observable
   loading = false;
   @observable
@@ -34,6 +35,32 @@ class ScheduleStore {
   onClose = () => {
     this.editingScheduleId = null;
   };
+
+  @action
+  loadSchedules = () => {
+    this.loading = true;
+    // NOTE uses large number of take since we don't support pagination here
+    return this.api
+      .makeAuthorizedRequest(
+        `/api/batch/Schedule/plant/${this.plantId}/schedules`,
+        {
+          dateFrom: moment(this.dateFrom).format(),
+          dateTo: moment(this.dateTo).format(),
+          skip: 0,
+          take: 1000
+        }
+      )
+      .then(resp => {
+        this.loading = false;
+        this.schedules = resp;
+      });
+  };
+
+  @action
+  addSchedule = data => {};
+
+  @action
+  updateSchedule = (id, data) => {};
 }
 
 export default ScheduleStore;

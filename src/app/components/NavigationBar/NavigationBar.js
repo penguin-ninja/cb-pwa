@@ -43,11 +43,12 @@ class NavigationBar extends Component {
                 <i className="fa fa-cogs" />
               </NavItem>
             </LinkContainer>
-            <LinkContainer to="/schedules">
-              <NavItem>
-                <i className="fa fa-clock-o" />
-              </NavItem>
-            </LinkContainer>
+            <NavItem>
+              <i
+                className="fa fa-clock-o"
+                onClick={() => sidebarStore.onToggle('schedules')}
+              />
+            </NavItem>
             <LinkContainer to="/materials">
               <NavItem>
                 <i className="fa fa-cubes" />

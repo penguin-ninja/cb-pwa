@@ -29,7 +29,6 @@ class App extends Component {
           <div className="page-content-wrapper">
             <Switch>
               <Route exact path="/" component={Home} />
-              <Route exact path="/schedules" component={Schedules} />
               <Route exact path="/materials" component={Materials} />
               <Route exact path="/mixes" component={Mix} />
             </Switch>
@@ -37,6 +36,7 @@ class App extends Component {
         </div>
         <Diagnose />
         <Devices />
+        <Schedules />
       </div>
     );
   }

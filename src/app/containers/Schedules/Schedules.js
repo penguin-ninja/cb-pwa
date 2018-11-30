@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { inject, observer } from 'mobx-react';
-import { LinkContainer } from 'react-router-bootstrap';
-import Breadcrumb from 'react-bootstrap/lib/Breadcrumb';
+import SideBar from 'app/components/SideBar/SideBar';
 import Button from 'react-bootstrap/lib/Button';
 import ScheduleTable from './SchedulesTable';
 import EditScheduleModal from './EditScheduleModal';
+import './Schedule.css';
 
 @inject('scheduleStore')
 @observer
@@ -17,28 +17,24 @@ class Schedules extends Component {
     const { editingScheduleId } = this.props.scheduleStore;
 
     return (
-      <div className="page-content">
-        <div className="page-bar">
-          <Breadcrumb className="page-breadcrumb">
-            <LinkContainer to="/">
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
-            </LinkContainer>
-            <Breadcrumb.Item active>Schedules</Breadcrumb.Item>
-          </Breadcrumb>
-          <div className="page-toolbar">
-            <Button
-              bsStyle="primary"
-              className="pull-right"
-              onClick={this.onNewSchedule}
-            >
-              <i className="fa fa-plus" /> Add Schedule
-            </Button>
-          </div>
+      <SideBar type="schedules">
+        <div className="schedules__heading">
+          <h3>
+            <i className="fa fa-clock-o" /> Schedules
+          </h3>
+          <Button
+            bsStyle="primary"
+            className="pull-right"
+            onClick={this.onNewSchedule}
+          >
+            <i className="fa fa-plus" /> Add Schedule
+          </Button>
         </div>
-        <h1 className="page-title">Schedules</h1>
-        <ScheduleTable />
+        <div className="schedules__body">
+          <ScheduleTable />
+        </div>
         {editingScheduleId && <EditScheduleModal />}
-      </div>
+      </SideBar>
     );
   }
 }

@@ -1,31 +1,31 @@
 export const ScheduleModel = {
-  localJobCode: { type: 'text', col: 3 },
-  ticketCode: { type: 'text', col: 3 },
-  account: { type: 'text', col: 3 },
+  localJobCode: { type: 'text', col: 3 }, // ticketCode
+  ticketCode: { type: 'text', col: 3 },  // ticketCode
+  account: { type: 'text', col: 3 }, // customerCode
   accountType: {
     col: 3,
     type: 'accountType',
-    options: [{ value: 'OPEN', text: 'OPEN' }, { value: 'COD', text: 'COD' }]
-  },
-  shipDate: { type: 'date', col: 2 },
-  loadTime: { type: 'time', col: 2 },
-  po: { placeholder: 'PO#', type: 'number', col: 2 },
-  usage: { type: 'text', col: 2 },
-  slump: { type: 'text', col: 2 },
-  tax: { placeholder: 'Tax %', type: 'number', col: 2 },
-  truck: { type: 'text', col: 3 },
-  quantityInTruck: { type: 'number', col: 3 },
-  quantityOrdered: { type: 'number', col: 3 },
-  quantityToday: { type: 'number', col: 3 },
+    options: [{ value: 0, text: 'OPEN' }, { value: 1, text: 'COD' }]
+  }, // accountType
+  shipDate: { type: 'date', col: 2 }, // shipDate
+  loadTime: { type: 'time', col: 2 }, // shipDate
+  po: { placeholder: 'PO#', type: 'number', col: 2 }, // purchaseOrderNumber
+  usage: { type: 'text', col: 2 }, // usageCode
+  slump: { type: 'text', col: 2 }, // product.productSlump
+  tax: { placeholder: 'Tax %', type: 'number', col: 2 }, // product.productTax
+  truck: { type: 'text', col: 3 }, // truckCode
+  quantityInTruck: { type: 'number', col: 3 }, // product.productQuantityInTruck
+  quantityOrdered: { type: 'number', col: 3 }, // product.productTotalQuantityOrdered
+  quantityToday: { type: 'number', col: 3 }, // product.productTotalQuantityToday
   notes: { type: 'text', col: 12 }
 };
 
 export const MixModel = {
-  code: { type: 'text', col: 1 },
-  description: { type: 'text', col: 3 },
-  unit: { type: 'text', col: 1 },
-  quantity: { type: 'number', col: 2 },
-  price: { type: 'number', col: 2 },
-  amount: { type: 'number', col: 2 },
-  taxable: { label: 'Tax?', type: 'boolean', col: 1 }
+  code: { type: 'text', col: 1 }, // product.productItemCode
+  description: { type: 'text', col: 3 }, // product.productItemDescription
+  unit: { type: 'text', col: 1 }, // product.productUnitCode
+  quantity: { type: 'number', col: 2 }, // product.productQuantity
+  price: { type: 'number', col: 2 }, // product.productQuantityPrice
+  amount: { type: 'number', col: 2 }, // product.productQuantity * productQuantityPrice - productTax
+  taxable: { label: 'Tax?', type: 'boolean', col: 1 } // product.taxable
 };
