@@ -30,6 +30,10 @@ class DeviceDOMCanvas extends Component {
     const gui = devicesStore.getDeviceGUIById(device.id, device.deviceTypeName);
     const DeviceComponent = Device[device.deviceTypeName];
 
+    if (!DeviceComponent) {
+      return null;
+    }
+
     return (
       <DeviceComponent
         key={`device_${device.id}`}
